@@ -1,18 +1,16 @@
 const validator = require('validator')
 
-const emailFormatValidator = async (payload) => {
-    const email = await validator.isEmail(payload.email)
+const formatValidator = async (payload) => {
 
-    return email
+    if (! await validator.isEmail(payload.email)) {
+        return false
+    }
+    if (await validator.isMobilePhone(payload.phone,['id-ID'])) {
+        return false
+    }
+    
+    return true
 }
 
-const phoneFormatValidator = async (payload) => {
-    const phone = await validator.isMobilePhone(payload.phone,['id-ID'])
 
-    return phone 
-}
-
-module.exports = {
-    emailFormatValidator,
-    phoneFormatValidator
-}
+module.exports = formatValidator

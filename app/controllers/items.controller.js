@@ -143,6 +143,4 @@ class itemController {
     }
 }
 
-module.exports = {
-    itemController,
-}
+module.exports = itemController

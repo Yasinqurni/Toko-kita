@@ -1,4 +1,4 @@
-const { cartController } = require('../controllers/cart.controller')
+const { cartController } = require('../controllers')
 const router = require('express').Router()
 const { tokenJwt } = require('../middlewares/authentication')
 const auth = require('../middlewares/authorization')

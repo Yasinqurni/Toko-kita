@@ -1,4 +1,4 @@
-const { imageController } = require('../controllers/image.controller')
+const { imageController } = require('../controllers')
 const router = require('express').Router()
 const { tokenJwt } = require('../middlewares/authentication')
 const auth = require('../middlewares/authorization')

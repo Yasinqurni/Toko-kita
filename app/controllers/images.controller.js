@@ -1,5 +1,5 @@
 const fs = require('fs')
-const {uploadFile, __basedir, deleteImageCloudinary } = require('../services/upload')
+const {uploadFile, deleteImageCloudinary } = require('../services/upload')
 const { imageQueries, itemQueries } = require('../queries')
 const message = require('../../response-helpers/messages').MESSAGE
 const responseHendler = require('../../response-helpers/error-helper')
@@ -63,34 +63,6 @@ class imageController {
             if(!deleteImage) {return responseHendler.badRequest(res, message('image').serverError)}
 
             return responseHendler.ok(res, message('image delete').success)
-        
-            // const id = req.params.id
-            // const findImage = await Image.findOne({
-            //     where: {id: id}
-            // })
-
-            // if(!findImage) {
-            //     throw new errorHelper(404, "No image found")
-            // }
-            
-            //menghapus image di storage
-            // fs.unlink(__basedir + `/storage/upload/${findImage.url}`, 
-            //     function (err)  {
-            //         if (err) {
-            //             throw new errorHelper(400, 'cannot unlink')
-            //         }
-
-            //         const deleteImage = Image.destroy({
-            //             where: {
-            //                 id: id
-            //             }
-            //         })
-            //         if(deleteImage === 0) {
-            //             throw new errorHelper(400, 'cannot delete image')
-            //         }
-                    
-            //         return new response(res, 200, 'delete image successfully')
-            //     })
         }
 
         catch(err) {
@@ -102,6 +74,4 @@ class imageController {
      }
 }
 
-module.exports = {
-    imageController,
-}
+module.exports = imageController

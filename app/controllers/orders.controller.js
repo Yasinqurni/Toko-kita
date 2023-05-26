@@ -1,7 +1,6 @@
 const { userQueries, cartQueries, orderQueries, itemCartQueries, itemQueries } = require('../queries')
 const message = require('../../response-helpers/messages').MESSAGE
 const responseHendler = require('../../response-helpers/error-helper')
-const { checkoutOrder, payOrder, cancelOrder } = require('../middlewares/email.verification');
 
 class orderController {
 
@@ -43,9 +42,6 @@ class orderController {
 
             const findUser = await userQueries.findUserById(auth)
 
-            //send email
-            checkoutOrder(findUser, createOrder)
-
             //update status cart
             const updateCart = await cartQueries.updateCart('process', findCart)
             if (!updateCart) { return responseHendler.badRequest(res, message('cart').invalidCreateResource) }
@@ -80,9 +76,6 @@ class orderController {
             if (!findCart) { return responseHendler.notFound(res, message('cart').notFoundResource) }
 
             const findUser = await userQueries.findUserById(auth)
-
-            //send email
-            payOrder(findUser, findOrder)
 
             const updateCart = await cartQueries.updateCart('success', findCart)
             if (!updateCart) { return responseHendler.badRequest(res, message('cart').invalidCreateResource) }
@@ -122,8 +115,6 @@ class orderController {
             if (!findItemCart) { return responseHendler.notFound(res, message('item_cart').notFoundResource) }
 
             const findUser = await userQueries.findUserById(auth)
-            //send email
-            cancelOrder(findUser)
 
             for (let item of findItemCart) {
                 const findItem = await itemQueries.findByPayload(item.item_id)

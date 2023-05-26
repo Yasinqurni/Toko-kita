@@ -6,7 +6,7 @@ class userQueries {
         this.model = User
     }
 
-    async Create (payload, role) {
+    async Create(payload, role) {
         return this.model.create({
             fullname: payload.fullname,
             address: payload.address,
@@ -17,19 +17,19 @@ class userQueries {
         })
     }
     
-    async GetByEmail (payload) {
+    async GetByEmail(payload) {
         return this.model.findOne({
             where: { email: payload.email }
         })
     }
     
-    async GetById (payload) {
+    async GetById(payload) {
         return this.model.findOne({
             where: { id: payload }
         })
     }
     
-    async Delete (payload) {
+    async Delete(payload) {
         return this.model.destroy({ where: { email: payload.email } })
     }
     

@@ -1,4 +1,4 @@
-const { orderController } = require('../controllers/order.controller')
+const { orderController } = require('../controllers')
 const router = require('express').Router()
 const { tokenJwt } = require('../middlewares/authentication')
 

@@ -8,13 +8,6 @@ class cartController {
    
     async addCart(req, res) {
         try {
-        
-        //status cart {pending,processing,complete}
-        //1. menemukan item yang akan dimasukkan ke cart dengan menggunakan id_item
-        //2. cek stock item
-        //3. menemukan cart dengan status item:pending
-        //4. bila tidak ditemukan maka akan membuat cart baru dengan status:pending        
-        //5. membuat cart_item dengan id cart pending tsb
 
             //menemukan item
             const payload = req.params
@@ -75,6 +68,4 @@ class cartController {
 
 }
 
-module.exports = {
-    cartController
-}
+module.exports = cartController
