@@ -2,7 +2,7 @@ const dotenv = require('dotenv')
 
 dotenv.config({path: `.env.${process.env.NODE_ENV}`})
 
-const app = require('./app')
+const app = require('../../internal/toko-kita/app')
 
 const port = process.env.PORT
 
