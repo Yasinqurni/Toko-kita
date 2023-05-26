@@ -1,0 +1,45 @@
+version: '3.8'
+
+services:
+  automation_testing:
+    build: 
+      dockerfile: Dockerfile
+      context: .
+    tty: true
+    ports:
+      - 9182:5151
+    depends_on:
+      - automation_db
+      - automation_testing_migration
+    env_file:
+      - .env.development
+    command: sh -c "npm run start:dev"
+    volumes:
+      - type: volume
+        source: automation_module_volume
+        target: /app/node_modules
+      - type: bind
+        source: .
+        target: /app
+  
+  automation_testing_migration:
+    build: 
+      dockerfile: Dockerfile
+      context: .
+    depends_on:
+      - automation_db
+    env_file:
+      - .env.development
+    command: sh -c "npm run db:migrate:development && npm run db:seed:development"
+    restart: on-failure
+
+  automation_db:
+    image: postgres:14
+    ports:
+      - 5437:5432
+    environment:
+      - POSTGRES_PASSWORD=12345678
+      - POSTGRES_DB=automation
+
+volumes:
+  automation_module_volume:
