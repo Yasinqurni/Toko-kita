@@ -1,23 +1,28 @@
-const { Item_cart } = require('../../db/models')
 
-const createItemCart = async (payloadItem, payloadCart, qty, totalprice) => {
-    return Item_cart.create({
-        item_id: payloadItem,
-        cart_id: payloadCart,
-        quantity_order: qty,
-        total_price: totalprice
-    })
-}
 
-const findItemCart = async (payload) => {
-    return Item_cart.findAll({
-        where: { cart_id: payload.id}
-      })
+class itemCartQueries {
+
+    constructor(Item_cart) {
+        this.model = Item_cart
+    }
+
+    async Create (payloadItem, payloadCart, qty, totalprice) {
+        return this.model.create({
+            item_id: payloadItem,
+            cart_id: payloadCart,
+            quantity_order: qty,
+            total_price: totalprice
+        })
+    }
     
+    async GetAll (payload) {
+        return this.model.findAll({
+            where: { cart_id: payload.id}
+          })
+        
+    }
 }
 
+module.exports = itemCartQueries
 
-module.exports = {
-    createItemCart,
-    findItemCart,
-}
+

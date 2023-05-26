@@ -1,99 +1,99 @@
-const { Item, Image, Category, User } = require('../../db/models')
 
-//create item
-const createItem = async (payload, auth) => {
-    return Item.create({
-        user_id: auth,
-        name_item: payload.name_item,
-        category_id: payload.category_id,  
-        price: payload.price,
-        quantity: payload.quantity
-    })
+class itemQueries {
+
+    constructor(Item, Image, Category, User) {
+        this.item = Item
+        this.image = Image
+        this.category = Category
+        this.user = User
+    }
+
+    //create item
+    async Create (payload, auth) {
+        return this.item.create({
+            user_id: auth,
+            name_item: payload.name_item,
+            category_id: payload.category_id,  
+            price: payload.price,
+            quantity: payload.quantity
+        })
+    }
+
+    async GetAll (limit, offset) {
+        return Item.findAll({
+            include: [
+                { model: this.image},
+                { model: this.category},
+                { model: this.user}
+            ],
+            limit: limit,
+            offset: offset
+        })
+    }
+
+    async GetAllById (auth, limit, offset) {
+        return this.item.findAll({
+            where: {user_id: auth},
+            include: [
+                { model: this.image},
+                { model: this.category}
+            ],
+            limit: limit,
+            offset: offset
+        })
+    }
+
+    async GetById (payload) {
+        return this.item.findOne({
+            where: { id: payload.id },
+            include: [
+                { model: this.image},
+                { model: this.category}
+            ],
+        })
+    }
+
+    async GetByUserId (payload, auth) {
+        return this.item.findOne({
+            where: { 
+                id: payload.id,
+                user_id: auth
+            }
+            
+        })
+    }
+
+    async GetByPayload (payload) {
+        return this.item.findOne({
+            where: { 
+                id: payload,
+            }
+            
+        })
+    }
+
+    async Delete (payload) {
+        return this.item.destroy({
+            where: { 
+                id: payload.id,
+            }
+        })
+    }
+
+    async Update (payload, body) {
+        return this.item.update(body, {
+            where: { 
+                id: payload.id,
+            }
+        })
+    }
+
+    async UpdateQty (payload, qty) {
+        return this.item.update(
+            { quantity: qty }, 
+            { where: { id: payload}})
+    }
+
 }
 
-const findAllItem = (limit, offset) => {
-    return Item.findAll({
-        include: [
-            { model: Image},
-            { model: Category},
-            { model: User}
-        ],
-        limit: limit,
-        offset: offset
-    })
-}
-
-const findAllItemById = (auth, limit, offset) => {
-    return Item.findAll({
-        where: {user_id: auth},
-        include: [
-            { model: Image},
-            { model: Category}
-        ],
-        limit: limit,
-        offset: offset
-    })
-}
-
-const findById = (payload) => {
-    return Item.findOne({
-        where: { id: payload.id },
-        include: [
-            { model: Image},
-            { model: Category}
-        ],
-    })
-}
-
-const findByUserId = (payload, auth) => {
-    return Item.findOne({
-        where: { 
-            id: payload.id,
-            user_id: auth
-         }
-        
-    })
-}
-
-const findByPayload = (payload) => {
-    return Item.findOne({
-        where: { 
-            id: payload,
-         }
-        
-    })
-}
-
-const deleteItem = (payload) => {
-    return Item.destroy({
-        where: { 
-            id: payload.id,
-         }
-    })
-}
-
-const updateItem = (payload, body) => {
-    return Item.update(body, {
-        where: { 
-            id: payload.id,
-         }
-    })
-}
-
-const updateQty = (payload, qty) => {
-    return Item.update(
-        { quantity: qty }, 
-        { where: { id: payload}})
-}
-
-module.exports = {
-    createItem,
-    findAllItem,
-    findAllItemById,
-    findById,
-    deleteItem,
-    findByUserId,
-    updateItem,
-    findByPayload,
-    updateQty,
-}
+module.exports = itemQueries

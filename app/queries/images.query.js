@@ -1,22 +1,27 @@
 const { Image } = require('../../db/models')
 
-const createBulkImage = (payload) => {
-    return Image.bulkCreate(payload)
+
+class imageQueries {
+
+    constructor(Image) {
+        this.model = Image
+    }
+
+    async CreateBulk (payload) {
+        return this.model.bulkCreate(payload)
+    }
+    
+    async GetById (payload) {
+        return this.model.findOne({
+            where: {id: payload.id}
+        })
+    }
+    
+    async Delete (payload) {
+        return this.model.destroy({
+            where: {id: payload.id}
+        })
+    }
 }
 
-const findImage = (payload) => {
-    return Image.findOne({
-        where: {id: payload.id}
-    })
-}
-
-const deleteImage = (payload) => {
-    return Image.destroy({
-        where: {id: payload.id}
-    })
-}
-module.exports = {
-    createBulkImage,
-    findImage,
-    deleteImage,
-}
+module.exports = imageQueries

@@ -28,7 +28,11 @@ order.init(
       status_order: {
         type: DataTypes.STRING,
         allowNull: false
-      }
+      },
+      expired_at: {
+        type: DataTypes.DATE,
+        allowNull: true
+      },
   },
   {
     sequelize: sequelize,
