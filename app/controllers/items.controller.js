@@ -1,20 +1,25 @@
 const message = require('../../response-helpers/messages').MESSAGE
 const responseHendler = require('../../response-helpers/error-helper')
-const { itemQueries } = require('../queries')
-const { pagination, getPagingData } = require('../services/pagination')
+const { pagination } = require('../services/pagination')
 const itemDecorator = require('../decorators/items-decorator')
 
 
 class itemController {
 
+    constructor(itemService) {
+        this.itemservice = itemService
+    }
+
     async createItem(req, res) {
         try {
             const payload = req.body
-            if (!payload) { return responseHendler.notFound(res, message('body').notFoundResource) }
+            if (Object.keys(payload).length === 0) {
+                 return responseHendler.notFound(res, message('please insert body').errorMessage) 
+            }
 
             const auth = req.userId
             // create item
-            const createItem = await itemQueries.createItem(payload, auth)
+            const createItem = await this.itemservice.Create(payload, auth)
             if (!createItem) { return responseHendler.badRequest(res, message('item').invalidCreateResource) }
 
             return responseHendler.ok(res, message('item').created)
@@ -34,7 +39,7 @@ class itemController {
 
             const pagin = pagination(page, limit)
 
-            const getAllItem = await itemQueries.findAllItem(pagin.limitInt, pagin.offset)
+            const getAllItem = await this.itemservice.GetAll(pagin.limitInt, pagin.offset)
             if (getAllItem.length == 0) { return responseHendler.notFound(res, message('item').notFoundResource) }
 
             // const getDataPagging = getPagingData(getAllItem, page, limit)
@@ -58,10 +63,11 @@ class itemController {
 
         try {
             const payload = req.params
-            console.log(!payload);
-            if (!payload) { return responseHendler.badRequest(res, message('req.params').incompleteKeyOrValue) }
+            if (Object.keys(payload).length === 0) { 
+                return responseHendler.badRequest(res, message('please insert request params').errorMessage) 
+            }
 
-            const findItem = await itemQueries.findById(payload)
+            const findItem = await this.itemservice.GetById(payload)
 
             if (!findItem) { return responseHendler.notFound(res, message('item').notFoundResource) }
 
@@ -81,10 +87,14 @@ class itemController {
             const payload = req.params
             const auth = req.userId
 
-            const findItem = await itemQueries.findByUserId(payload, auth)
+            if (Object.keys(payload).length === 0) { 
+                return responseHendler.badRequest(res, message('please insert request params').errorMessage) 
+            }
+
+            const findItem = await this.itemservice.GetByUserId(payload, auth)
             if (!findItem) { return responseHendler.notFound(res, message('item').notFoundResource) }
 
-            const deleteItem = await itemQueries.deleteItem(payload)
+            const deleteItem = await this.itemservice.Delete(payload)
             if (!deleteItem) { return responseHendler.badRequest(res, message().serverError) }
 
             return responseHendler.ok(res, message('item').deleted)
@@ -103,11 +113,15 @@ class itemController {
             const payload = req.params
             const auth = req.userId
 
-            const findItem = await itemQueries.findByUserId(payload, auth)
+            if (Object.keys(payload).length === 0) { 
+                return responseHendler.badRequest(res, message('please insert request params').errorMessage) 
+            }
+
+            const findItem = await this.itemservice.GetByUserId(payload, auth)
 
             if (!findItem) { return responseHendler.notFound(res, message('item').notFoundResource) }
             
-            const updateItem = await itemQueries.updateItem(findItem, req.body)
+            const updateItem = await this.itemservice.Update(findItem, req.body)
             if (!updateItem) { return responseHendler.badRequest(res, message().serverError) }
 
             return responseHendler.ok(res, message('item').updated)
@@ -127,7 +141,7 @@ class itemController {
             const pagin = pagination(page, limit)
 
             const auth = req.userId
-            const findAllItem = await itemQueries.findAllItemById(auth, pagin.limitInt, pagin.offset)
+            const findAllItem = await this.itemservice.GetAllById(auth, pagin.limitInt, pagin.offset)
             if (findAllItem.length == 0) { return responseHendler.notFound(res, message('item').notFoundResource) }
 
             const data = await itemDecorator.itemDecoratorArray(findAllItem)

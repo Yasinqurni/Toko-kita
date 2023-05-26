@@ -3,9 +3,9 @@ const itemDecoratorArray = async (item, pagination) => {
   const mappedItem = item.map((data) => {
 
     return {
-      id_item: data.id,
+      // id_item: data.id,
       name_item: data.name_item,
-      category_id: data.category_id,
+      // category_id: data.category_id,
       category_name: data.category.category_name,
       description: data.item_description,
       price: data.price,

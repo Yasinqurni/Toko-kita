@@ -9,7 +9,7 @@ class itemQueries {
     }
 
     //create item
-    async Create (payload, auth) {
+    async Create(payload, auth) {
         return this.item.create({
             user_id: auth,
             name_item: payload.name_item,
@@ -19,8 +19,8 @@ class itemQueries {
         })
     }
 
-    async GetAll (limit, offset) {
-        return Item.findAll({
+    async GetAll(limit, offset) {
+        return this.item.findAll({
             include: [
                 { model: this.image},
                 { model: this.category},
@@ -31,7 +31,7 @@ class itemQueries {
         })
     }
 
-    async GetAllById (auth, limit, offset) {
+    async GetAllById(auth, limit, offset) {
         return this.item.findAll({
             where: {user_id: auth},
             include: [
@@ -43,7 +43,7 @@ class itemQueries {
         })
     }
 
-    async GetById (payload) {
+    async GetById(payload) {
         return this.item.findOne({
             where: { id: payload.id },
             include: [
@@ -53,7 +53,7 @@ class itemQueries {
         })
     }
 
-    async GetByUserId (payload, auth) {
+    async GetByUserId(payload, auth) {
         return this.item.findOne({
             where: { 
                 id: payload.id,
@@ -63,7 +63,7 @@ class itemQueries {
         })
     }
 
-    async GetByPayload (payload) {
+    async GetByPayload(payload) {
         return this.item.findOne({
             where: { 
                 id: payload,
@@ -72,7 +72,7 @@ class itemQueries {
         })
     }
 
-    async Delete (payload) {
+    async Delete(payload) {
         return this.item.destroy({
             where: { 
                 id: payload.id,
@@ -80,7 +80,7 @@ class itemQueries {
         })
     }
 
-    async Update (payload, body) {
+    async Update(payload, body) {
         return this.item.update(body, {
             where: { 
                 id: payload.id,
@@ -88,7 +88,7 @@ class itemQueries {
         })
     }
 
-    async UpdateQty (payload, qty) {
+    async UpdateQty(payload, qty) {
         return this.item.update(
             { quantity: qty }, 
             { where: { id: payload}})
