@@ -1,5 +1,3 @@
-const { Image } = require('../../db/models')
-
 
 class imageQueries {
 

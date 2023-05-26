@@ -1,13 +1,13 @@
 const message = require('../../response-helpers/messages').MESSAGE
 const responseHendler = require('../../response-helpers/error-helper')
-const { pagination } = require('../services/pagination')
 const itemDecorator = require('../decorators/items-decorator')
 
 
 class itemController {
 
-    constructor(itemService) {
+    constructor(itemService, pagination) {
         this.itemservice = itemService
+        this.pagin = pagination
     }
 
     async createItem(req, res) {
@@ -37,7 +37,7 @@ class itemController {
 
             const { page = '1', limit = '5' } = req.query
 
-            const pagin = pagination(page, limit)
+            const pagin = this.pagin.pagination(page, limit)
 
             const getAllItem = await this.itemservice.GetAll(pagin.limitInt, pagin.offset)
             if (getAllItem.length == 0) { return responseHendler.notFound(res, message('item').notFoundResource) }
@@ -138,7 +138,7 @@ class itemController {
 
             const { page = '1', limit = '5' } = req.query
 
-            const pagin = pagination(page, limit)
+            const pagin = this.pagin.pagination(page, limit)
 
             const auth = req.userId
             const findAllItem = await this.itemservice.GetAllById(auth, pagin.limitInt, pagin.offset)

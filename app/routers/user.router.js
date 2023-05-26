@@ -3,10 +3,13 @@ const { userQueries} = require('../queries')
 const { userService } = require('../services')
 const { userController } = require('../controllers')
 const { tokenJwt } = require('../middlewares/authentication')
+const formatValidator = require('../middlewares/user.validation')
+const generateToken = require('../../lib/jwt')
+const isMatch = require('../../lib/bcrypt')
 
 const userqueries = new userQueries(User)
 const userservice = new userService(userqueries)
-const usercontroller = new userController(userservice)
+const usercontroller = new userController(userservice, formatValidator, generateToken, isMatch)
 const tokenjwt = new tokenJwt()
 
 

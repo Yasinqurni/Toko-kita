@@ -1,14 +1,16 @@
 const message = require('../../response-helpers/messages').MESSAGE
 const responseHendler = require('../../response-helpers/error-helper')
-const formatValidator = require('../middlewares/user.validation')
-const generateToken = require('../../lib/jwt')
 const { loginDecorator, profileDecorator } = require('../decorators/users-decorator')
-const { isMatch } = require('../../lib/bcrypt')
+
 
 class userController {
 
-    constructor(userService) {
+    constructor(userService, formatValidator, generateToken, isMatch) {
         this.userservice = userService
+        this.formatValidator = formatValidator
+        this.generateToken = generateToken
+        this.isMatch = isMatch
+
     }
 
     async registerUser(req, res) {
@@ -18,7 +20,7 @@ class userController {
             const findUser = await this.userservice.GetByEmail(payload)
             if (findUser) { return responseHendler.duplicate(res, message('email').duplicateData) }
             //validate format email and numberphone
-            const formatIsValid = await formatValidator(payload)
+            const formatIsValid = await this.formatValidator.formatValidator(payload)
             if (formatIsValid === false) { return responseHendler.badRequest(res, message('email/phone').invalidEmailOrPassword) }
             //create a new user
             const newUser = await this.userservice.Create(payload, 'user')
@@ -40,7 +42,7 @@ class userController {
             const findUser = await this.userservice.GetByEmail(payload)
             if (findUser) { return responseHendler.duplicate(res, message('email').duplicateData) }
             //validate format email and numberphone
-            const formatIsValid = await formatValidator(payload)
+            const formatIsValid = await this.formatValidator.formatValidator(payload)
             if (formatIsValid === false) { return responseHendler.badRequest(res, message('email/phone').invalidEmailOrPassword) }
             //create a new user
             const newUser = await this.userservice.Create(payload, 'seller')
@@ -64,10 +66,10 @@ class userController {
             const findUser = await this.userservice.GetByEmail(payload)
             if (!findUser) { return responseHendler.notFound(res, message('email').notFoundResource) }
 
-            const ismatch = await isMatch(payload.password, findUser)
+            const ismatch = await this.isMatch.isMatch(payload.password, findUser)
             if (!ismatch) { return responseHendler.notFound(res, message('wrong password').errorMessage) }
 
-            const token = await generateToken(findUser)
+            const token = await this.generateToken.generateToken(findUser)
             if (!token) { return responseHendler.internalError(res, message().serverError) }
 
             const data = loginDecorator(findUser, token)

@@ -6,10 +6,11 @@ const { itemController } = require('../controllers')
 const router = require('express').Router()
 const { tokenJwt } = require('../middlewares/authentication')
 const auth = require('../middlewares/authorization')
+const pagination = require('../services/pagination')
 
 const itemqueries = new itemQueries(Item, Image, Category, User)
 const itemservice = new itemService(itemqueries)
-const itemcontroller = new itemController(itemservice)
+const itemcontroller = new itemController(itemservice, pagination)
 const tokenjwt = new tokenJwt()
 
 
