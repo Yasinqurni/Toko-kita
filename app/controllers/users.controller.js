@@ -7,9 +7,8 @@ const { isMatch } = require('../../lib/bcrypt')
 
 class userController {
 
-    constructor(userService, role) {
+    constructor(userService) {
         this.userservice = userService
-        this.role = role
     }
 
     async registerUser(req, res) {
@@ -25,6 +24,7 @@ class userController {
             const newUser = await this.userservice.Create(payload, 'user')
             if (!newUser) { return responseHendler.internalError(res, message().serverError) }
 
+            return responseHendler.ok(res, message('register').success)
         }
 
         catch (err) {
@@ -46,6 +46,7 @@ class userController {
             const newUser = await this.userservice.Create(payload, 'seller')
             if (!newUser) { return responseHendler.internalError(res, message().serverError) }
 
+            return responseHendler.ok(res, message('register').success)
         }
 
         catch (err) {
@@ -66,8 +67,6 @@ class userController {
             const ismatch = await isMatch(payload.password, findUser)
             if (!ismatch) { return responseHendler.notFound(res, message('wrong password').errorMessage) }
 
-            if (!findUser.is_verified) { return responseHendler.badRequest(res, message('email').userNotVerified) }
-
             const token = await generateToken(findUser)
             if (!token) { return responseHendler.internalError(res, message().serverError) }
 
@@ -87,7 +86,7 @@ class userController {
         try {
 
             const payload = req.userId
-            const userProfile = await this.userservice.GetByEmail(payload)
+            const userProfile = await this.userservice.GetById(payload)
             if (!userProfile) { return responseHendler.notFound(res, message('user').notFoundResource) }
 
             const data = profileDecorator(userProfile)

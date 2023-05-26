@@ -139,4 +139,4 @@ class orderController {
 
 }
 
-module.exports = { orderController }
+module.exports = orderController 

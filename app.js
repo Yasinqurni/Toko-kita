@@ -17,4 +17,4 @@ app.use('/v1', imageRouter)
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument))
 
 
-module.exports = app
+module.exports = app  

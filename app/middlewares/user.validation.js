@@ -2,10 +2,12 @@ const validator = require('validator')
 
 const formatValidator = async (payload) => {
 
-    if (! await validator.isEmail(payload.email)) {
+    const email = await validator.isEmail(payload.email)
+    if (!email ) {
         return false
     }
-    if (await validator.isMobilePhone(payload.phone,['id-ID'])) {
+    const phone = await validator.isMobilePhone(payload.phone,['id-ID'])
+    if (!phone) {
         return false
     }
     
