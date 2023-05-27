@@ -21,9 +21,6 @@ const storage = new CloudinaryStorage({
             "jpg", "png"
         }, // supports promises as well
         public_id: (req, file) => {
-            console.log(
-                new Date().toISOString().replace(/:/g, "-") //+ file.originalname.replace(/''/g, "-")
-            )
             return (
                 new Date().toISOString().replace(/:/g, "-") //+ file.originalname.replace(/''/g, "-")
             )

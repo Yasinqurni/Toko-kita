@@ -2,10 +2,15 @@ const express = require('express')
 const app = express()
 const {userRouter, itemRouter, cartRouter, orderRouter, imageRouter } = require('./app/routers')
 const bodyParser = require('body-parser')
+
+// const fileupload = require("express-fileupload")
+
+
 const swaggerUi = require(`swagger-ui-express`)
 const YAML = require('yamljs');
-const swaggerDocument = YAML.load(`./swagger.yml`);
+const swaggerDocument = YAML.load(`./swagger.yml`)
 
+// app.use(fileupload());
 app.use(bodyParser.json())
 app.use(express.urlencoded({extended: true}))
 // Router

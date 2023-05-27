@@ -20,13 +20,14 @@ class imageController {
             const findItem = await this.itemService.GetById(id, auth)
             if (!findItem) { return responseHendler.notFound(res, message('item').notFoundResource)}
             //deploy storage dicloudinary
+          
             const uploadImage = await this.upload.uploadFile(req, res)
-        
+            console.log(uploadImage)
 
+            console.log('req.files:', req.files)
             if(req.files === undefined) { return responseHendler.badRequest(res, message('images').incompleteKeyOrValue)}
 
-            //use to bulk upload
-            console.log('req.files:', req.files)
+            //use to bulk upload    
             let images = req.files.map((item) => {
                 const image = {}
                 image.item_id = findItem.id
@@ -44,6 +45,7 @@ class imageController {
         }
         catch(err) {
             const key = err.message
+            console.error(err)
             return responseHendler.internalError(res, message(key).errorMessage)
         }
     }

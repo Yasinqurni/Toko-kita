@@ -15,7 +15,7 @@ const tokenjwt = new tokenJwt()
 
 const router = require('express').Router()
 
-router.post('/api/image/:id', tokenjwt.verifyToken, auth.authorization('seller'), imagecontroller.uploadImage)
-router.delete('/api/image/:id', tokenjwt.verifyToken, auth.authorization('seller'), imagecontroller.removeImage)
+router.post('/api/image/:id', tokenjwt.verifyToken, auth.authorization('seller'), imagecontroller.uploadImage.bind(imagecontroller))
+router.delete('/api/image/:id', tokenjwt.verifyToken, auth.authorization('seller'), imagecontroller.removeImage.bind(imagecontroller))
 
 module.exports = router
