@@ -20,7 +20,7 @@ class userController {
             const findUser = await this.userservice.GetByEmail(payload)
             if (findUser) { return responseHendler.duplicate(res, message('email').duplicateData) }
             //validate format email and numberphone
-            const formatIsValid = await this.formatValidator.formatValidator(payload)
+            const formatIsValid = await this.formatValidator(payload)
             if (formatIsValid === false) { return responseHendler.badRequest(res, message('email/phone').invalidEmailOrPassword) }
             //create a new user
             const newUser = await this.userservice.Create(payload, 'user')
@@ -42,7 +42,7 @@ class userController {
             const findUser = await this.userservice.GetByEmail(payload)
             if (findUser) { return responseHendler.duplicate(res, message('email').duplicateData) }
             //validate format email and numberphone
-            const formatIsValid = await this.formatValidator.formatValidator(payload)
+            const formatIsValid = await this.formatValidator(payload)
             if (formatIsValid === false) { return responseHendler.badRequest(res, message('email/phone').invalidEmailOrPassword) }
             //create a new user
             const newUser = await this.userservice.Create(payload, 'seller')
@@ -69,7 +69,7 @@ class userController {
             const ismatch = await this.isMatch.isMatch(payload.password, findUser)
             if (!ismatch) { return responseHendler.notFound(res, message('wrong password').errorMessage) }
 
-            const token = await this.generateToken.generateToken(findUser)
+            const token = await this.generateToken(findUser)
             if (!token) { return responseHendler.internalError(res, message().serverError) }
 
             const data = loginDecorator(findUser, token)

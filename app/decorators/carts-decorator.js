@@ -9,7 +9,7 @@ const cartDecorator = async (cart) => {
         }
     })
     const mapCarts = {
-        cart_id: cart.id,
+        // cart_id: cart.id,
         status_cart: cart.status_cart,
         address: cart.user.address,
         items: mappingItem
@@ -23,7 +23,7 @@ const cartDecoratorArray = async (cart) => {
 
     const mapCarts = cart.map((data) => {
         return {
-            cart_id: data.id,
+            // cart_id: data.id,
             status_cart: data.status_cart,
             address: data.user.address,
             items: data.item_carts.map((itemCart) => {
