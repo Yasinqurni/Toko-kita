@@ -55,7 +55,7 @@ class cartQueries {
     }
     
     async Update (status, payload) {
-        return Cart.update(
+        return this.cart.update(
             { status_cart: status },
             { where: {id: payload.id}}
         )

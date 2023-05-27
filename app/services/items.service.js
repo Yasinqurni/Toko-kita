@@ -24,7 +24,7 @@ class itemService {
         return await this.query.GetByUserId(userId, auth)
     }
 
-    async GetBypayload(payload) {
+    async GetByPayload(payload) {
         return await this.query.GetByPayload(payload)
     }
 

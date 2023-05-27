@@ -1,17 +1,30 @@
+const {User, Item, Cart, Order, Item_cart, Category, Image} = require('../../db/models')
+const {cartQueries, orderQueries, itemCartQueries, itemQueries} = require('../queries')
+const {cartService, orderService, itemCartService, itemService} = require('../services')
 const { orderController } = require('../controllers')
-const router = require('express').Router()
+const auth = require('../middlewares/authorization')
 const { tokenJwt } = require('../middlewares/authentication')
 
 
-const ordercontroller = new orderController()
+const cartqueries = new cartQueries(Cart, Item_cart, Item, User)
+const orderqueries = new orderQueries(Order)
+const itemcartqueries = new itemCartQueries(Item_cart)
+const itemqueries = new itemQueries(Item, Image, Category, User)
+const cartservice = new cartService(cartqueries)
+const orderservice = new orderService(orderqueries)
+const itemservice = new itemService(itemqueries)
+const itemcartservice = new itemCartService(itemcartqueries)
+const ordercontroller = new orderController(cartservice, orderservice, itemcartservice, itemservice)
 const tokenjwt = new tokenJwt()
 
-//c
-router.post('/api/order',tokenjwt.verifyToken, ordercontroller.checkout)
+
+const router = require('express').Router()
+
+router.post('/api/order',tokenjwt.verifyToken, auth.authorization('user'), ordercontroller.checkout.bind(ordercontroller))
 //konfirmasi pembayaran
-router.patch('/api/order',tokenjwt.verifyToken, ordercontroller.confirmPayment)
+router.patch('/api/order',tokenjwt.verifyToken, auth.authorization('user'), ordercontroller.confirmPayment.bind(ordercontroller))
 //cancel order
-router.delete('/api/order',tokenjwt.verifyToken, ordercontroller.cancelOrder)
+router.delete('/api/order',tokenjwt.verifyToken, auth.authorization('user'), ordercontroller.cancelOrder.bind(ordercontroller))
 
 
 

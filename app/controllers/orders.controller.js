@@ -3,12 +3,12 @@ const responseHendler = require('../../response-helpers/error-helper')
 
 class orderController {
 
-    constructor(cartService, orderService, itemCartService, itemQueries) {
+    constructor(cartService, orderService, itemCartService, itemService) {
         
         this.cartService = cartService
         this.orderService = orderService
         this.itemCartService = itemCartService
-        this.itemQueries = itemQueries
+        this.itemService = itemService
 
     }
 
@@ -22,7 +22,7 @@ class orderController {
             if (!findCart) { return responseHendler.notFound(res, message('cart').notFoundResource) }
 
             //create order
-            const findItemCart = await this.itemCartService.GetById(findCart)
+            const findItemCart = await this.itemCartService.GetAll(findCart)
             if (findItemCart.length == 0) { return responseHendler.notFound(res, message('item_cart').notFoundResource) }
 
             for (const item of findItemCart) {
@@ -61,6 +61,7 @@ class orderController {
 
         catch (err) {
             const key = err.message
+            console.log(err)
             return responseHendler.internalError(res, message(key).errorMessage)
         }
     }

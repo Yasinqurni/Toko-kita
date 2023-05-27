@@ -59,7 +59,7 @@ class cartController {
 
             const auth = req.userId
             const findCart = await this.cartService.GetAll(auth)
-            if (!findCart) { return responseHendler.notFound(res, message('cart').notFoundResource)}
+            if (findCart.length == 0) { return responseHendler.notFound(res, message('cart').notFoundResource)}
             
             const data = await cartDecoratorArray(findCart)
             return responseHendler.ok(res, message('get cart').success, data)
