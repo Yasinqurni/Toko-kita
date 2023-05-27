@@ -5,12 +5,13 @@ class orderQueries {
         this.model = Order
     }
 
-    async Create (payload, status, totalPrice) {
+    async Create (payload, status, totalPrice, walletId) {
         return this.model.create({
             user_id: payload.user_id,
             cart_id: payload.id,
             status_order: status,
-            total_price: totalPrice
+            total_price: totalPrice,
+            wallet_id: walletId
         })
     }
     

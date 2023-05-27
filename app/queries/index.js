@@ -4,6 +4,8 @@ const cartQueries = require('./carts.query')
 const itemCartQueries = require('./item_carts.query')
 const orderQueries = require('./orders.query')
 const imageQueries = require('./images.query')
+const transactionQueries = require('./transactions.query')
+const walletQueries = require('./wallets.query')
 
 module.exports = {
     userQueries,
@@ -12,5 +14,7 @@ module.exports = {
     itemCartQueries,
     orderQueries,
     imageQueries,
+    transactionQueries,
+    walletQueries,
 
 }

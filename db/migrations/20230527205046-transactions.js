@@ -1,38 +1,32 @@
-'use strict';
+'use strict'
+
+const sequelize = require('sequelize')
 
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up (queryInterface, Sequelize) {
-     await queryInterface.createTable('items', { 
+     await queryInterface.createTable('transactions', {
       id: {
         type: Sequelize.INTEGER,
         primaryKey: true,
         autoIncrement: true
-      }, 
-      user_id: {
+      },
+      order_id: {
         type: Sequelize.INTEGER,
-        allowNull: true,
+        allowNull: false,
         references : {
-          model: "users",
+          model: "orders",
           key: "id",
-          as: "user_id"
+          as: "order_id"
         }
       },
-      name_item: {
+      status_transaction: {
         type: Sequelize.STRING,
-        allowNull: true
+        allowNull: false
       },
-      category: {
-        type: Sequelize.INTEGER,
-        allowNull: true,
-      },
-      price: {
-        type: Sequelize.DOUBLE,
-        allowNull: true
-      },
-      quantity: {
-        type: Sequelize.INTEGER,
-        allowNull: true
+      expired_at: {
+        type: Sequelize.DATE,
+        allowNull: false
       },
       created_at: {
         type: Sequelize.DATE,
@@ -49,6 +43,6 @@ module.exports = {
   },
 
   async down (queryInterface, Sequelize) {
-     await queryInterface.dropTable('items')
+     await queryInterface.dropTable('transactions')
   }
 }

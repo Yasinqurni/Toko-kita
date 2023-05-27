@@ -1,10 +1,9 @@
 
 class itemQueries {
 
-    constructor(Item, Image, Category, User) {
+    constructor(Item, Image, User) {
         this.item = Item
         this.image = Image
-        this.category = Category
         this.user = User
     }
 
@@ -13,7 +12,7 @@ class itemQueries {
         return this.item.create({
             user_id: auth,
             name_item: payload.name_item,
-            category_id: payload.category_id,  
+            category: payload.category,  
             price: payload.price,
             quantity: payload.quantity
         })
@@ -23,7 +22,6 @@ class itemQueries {
         return this.item.findAll({
             include: [
                 { model: this.image},
-                { model: this.category},
                 { model: this.user}
             ],
             limit: limit,
@@ -36,7 +34,6 @@ class itemQueries {
             where: {user_id: auth},
             include: [
                 { model: this.image},
-                { model: this.category}
             ],
             limit: limit,
             offset: offset
@@ -48,7 +45,6 @@ class itemQueries {
             where: { id: payload.id },
             include: [
                 { model: this.image},
-                { model: this.category}
             ],
         })
     }

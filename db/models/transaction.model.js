@@ -1,38 +1,28 @@
+
 const { Model, DataTypes } = require("sequelize")
 const sequelize = require("../config/config")
 
-class order extends Model {
+class transaction extends Model {
 }
 
-order.init(
+transaction.init(
   {
     id: {
         type: DataTypes.INTEGER,
         primaryKey: true,
         autoIncrement: true
-      }, 
-      user_id: {
+      },
+      order_id: {
         type: DataTypes.INTEGER,
-        allowNull: false,
-        field: 'user_id'
+        allowNull: false
       },
-      cart_id: {
-        type: DataTypes.INTEGER,
-        allowNull: false,
-        field: 'cart_id'
-      },
-      total_price: {
-        type: DataTypes.DOUBLE,
-        allowNull: false,
-      },
-      status_order: {
+      status_transaction: {
         type: DataTypes.STRING,
         allowNull: false
       },
-      wallet_id: {
-        type: DataTypes.INTEGER,
-        allowNull: true,
-        field: 'cart_id'
+      expired_at: {
+        type: DataTypes.DATE,
+        allowNull: false
       },
   },
   {
@@ -43,7 +33,9 @@ order.init(
     deletedAt: 'deleted_at',
     updatedAt: 'updated_at',
     createdAt: 'created_at',
-  },
+  }
+  
 )
+// return transaction
 
-module.exports = order
+module.exports = transaction

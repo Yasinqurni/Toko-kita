@@ -1,37 +1,27 @@
-'use strict';
+'use strict'
+
+const sequelize = require('sequelize')
 
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up (queryInterface, Sequelize) {
-     await queryInterface.createTable('items', { 
+     await queryInterface.createTable('wallets', {
       id: {
         type: Sequelize.INTEGER,
         primaryKey: true,
         autoIncrement: true
-      }, 
+      },
       user_id: {
         type: Sequelize.INTEGER,
-        allowNull: true,
+        allowNull: false,
         references : {
           model: "users",
           key: "id",
           as: "user_id"
         }
       },
-      name_item: {
-        type: Sequelize.STRING,
-        allowNull: true
-      },
-      category: {
-        type: Sequelize.INTEGER,
-        allowNull: true,
-      },
-      price: {
+      saldo: {
         type: Sequelize.DOUBLE,
-        allowNull: true
-      },
-      quantity: {
-        type: Sequelize.INTEGER,
         allowNull: true
       },
       created_at: {
@@ -49,6 +39,6 @@ module.exports = {
   },
 
   async down (queryInterface, Sequelize) {
-     await queryInterface.dropTable('items')
+     await queryInterface.dropTable('wallets')
   }
 }
