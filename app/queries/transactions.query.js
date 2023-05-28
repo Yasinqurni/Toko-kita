@@ -17,19 +17,15 @@ class transactionQueries {
         return this.model.bulkCreate(payload)
     }
 
-    async GetAll(auth) {
+    async GetAll(status) {
         return this.model.findAll({
-            where: {user_id: auth},
-            // include: [
-            //     { model: this.image},
-            //     { model: this.category}
-            // ],
+            where: {status_transaction: status},
         })
     }
     
-    async GetById(id) {
+    async GetByUserId(id, status) {
         return this.model.findOne({
-            where: {id: id}
+            where: {user_id: id, status_transaction: status}
         })
     }
 
@@ -41,13 +37,15 @@ class transactionQueries {
         })
     }
 
-    async Update(id, body) {
-        return this.model.update(body, {
-            where: { 
-                id: id,
-            }
-        })
-    }
+    async Update(id, status) {
+        return this.model.update(
+            {status_transaction: status}, 
+            {
+                where: { 
+                    id: id,
+                }
+            })
+      }
 }
 
 module.exports = transactionQueries

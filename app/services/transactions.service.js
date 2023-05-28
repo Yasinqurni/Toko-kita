@@ -10,34 +10,36 @@ class transactionService {
 
     async CreateBulk(payload, orderId){
 
-        const oneHourAgo = new Date(Date.now() - 60 * 60 * 1000)
-        console.log(payload)
+        // const time = new Date(Date.now() + 60 * 60 * 1000)
+        const time = new Date()
+        time.setDate(time.getDate() + 3)
+    
         const data = payload.map((item) => {
             return {
                 user_id: item.item.user_id,
                 status_transaction: "waiting",
                 order_id: orderId,
-                expired_at: oneHourAgo,
+                expired_at: time,
             }
         })
         console.log(data)
         return await this.query.CreateBulk(data)
     }
 
-    async GetAll(auth) {
-        return await this.query.GetAll(auth)
+    async GetAll(status) {
+        return await this.query.GetAll(status)
     }
 
-    async GetById(id) {
-        return await this.query.GetById(id)
+    async GetByUserId(id, status) {
+        return await this.query.GetByUserId(id, status)
     }
 
     async Delete(id) {
         return await this.query.Delete(id)
     }
 
-    async Update(id) {
-        return await this.query.Update(id)
+    async Update(id, status) {
+        return await this.query.Update(id, status)
     }
 }
 
