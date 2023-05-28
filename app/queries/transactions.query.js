@@ -22,10 +22,24 @@ class transactionQueries {
             where: {status_transaction: status},
         })
     }
+
+    async GetAllByUserId(userId) {
+        return this.model.findAll({
+            where: { 
+                user_id: userId
+            },
+        })
+    }
     
     async GetByUserId(id, status) {
         return this.model.findOne({
             where: {user_id: id, status_transaction: status}
+        })
+    }
+
+    async GetById(id, auth, status) {
+        return this.model.findOne({
+            where: {id: id, user_id: auth,status_transaction: status}
         })
     }
 

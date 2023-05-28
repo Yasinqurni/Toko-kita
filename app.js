@@ -1,7 +1,7 @@
 const express = require('express')
 
 
-const {userRouter, itemRouter, cartRouter, orderRouter, imageRouter, walletRouter } = require('./app/routers')
+const {userRouter, itemRouter, cartRouter, orderRouter, imageRouter, walletRouter, transactionRouter } = require('./app/routers')
 const bodyParser = require('body-parser')
 
 
@@ -20,6 +20,8 @@ app.use('/v1', cartRouter)
 app.use('/v1', orderRouter)
 app.use('/v1', imageRouter)
 app.use('/v1', walletRouter)
+app.use('/v1', transactionRouter)
+
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument))
 
 

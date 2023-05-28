@@ -4,6 +4,7 @@ const cartRouter = require('./carts.router')
 const orderRouter = require('./order.router')
 const imageRouter = require('./image.router')
 const walletRouter = require('./wallet.router')
+const transactionRouter = require('./transactions.router')
 
 module.exports = {
     itemRouter,
@@ -12,4 +13,5 @@ module.exports = {
     orderRouter,
     imageRouter,
     walletRouter,
+    transactionRouter
 }

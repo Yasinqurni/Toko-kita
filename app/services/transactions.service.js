@@ -30,8 +30,16 @@ class transactionService {
         return await this.query.GetAll(status)
     }
 
+    async GetAllByUserId(userId) {
+        return await this.query.GetAllByUserId(userId)
+    }
+
     async GetByUserId(id, status) {
         return await this.query.GetByUserId(id, status)
+    }
+
+    async GetById(id, auth, status) {
+        return await this.query.GetById(id, auth, status)
     }
 
     async Delete(id) {
