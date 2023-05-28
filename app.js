@@ -8,7 +8,7 @@ const bodyParser = require('body-parser')
 const app = express()
 const swaggerUi = require(`swagger-ui-express`)
 const YAML = require('yamljs');
-const swaggerDocument = YAML.load(`./swagger.yml`)
+const swaggerDocument = YAML.load(`./swagger.yaml`)
 
 
 app.use(bodyParser.json())
