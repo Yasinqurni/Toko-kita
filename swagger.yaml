@@ -3,7 +3,7 @@ info:
   version: '1.0'
   title: TOKO-KITA
   contact: {}
-host: localhost:5151
+host: localhost:9182
 basePath: /v1/api
 securityDefinitions: {}
 schemes:

@@ -1,20 +1,23 @@
 <p align="center">
-  <a href="https://https://github.com/Debugging-demon/Bingle-Shop" target="blank"><img src="https://res.cloudinary.com/deb05crrf/image/upload/v1683719945/express_vre91p.webp" width="200" alt="Node.js" /></a>
+  <a href="https://github.com/Yasinqurni/Toko-kita" target="blank"><img src="https://res.cloudinary.com/deb05crrf/image/upload/v1683719945/express_vre91p.webp" width="200" alt="Node.js" /></a>
 </p>
 
 <h1 align="center">TOKO KITA</h1>
 
 ## Deskripsi Fitur
--   source code dibangun dengan menggunakan Dependency Injection
--   menggunakan cron job
--   dapat berjalan di lokal atau menggunakan docker-compose
 
--   stack yang digunakan adalah:
+-   Source code dibangun dengan menggunakan Dependency Injection
+
+-   Menggunakan cron job
+
+-   Dapat berjalan di lokal atau menggunakan docker-compose
+
+-   Stack yang digunakan adalah:
     -   framework     : express.js
     -   database      : postgresql (https://supabase.com/)
     -   ORM           : sequelize 
     -   Upload Image  : https://cloudinary.com/
-``
+
 ## Entity Relationship Diagram
 
 <p align="center">
@@ -23,16 +26,28 @@
 
 
 
+
 <h2 align="center">Menjalankan Project</h2>
 
-## menjalanakan tanpa docker
+## Menjalanakan tanpa docker
+
+1.   Clone source repository dari github
+
+2.   Ganti port yang ada di file swagger.yaml menjadi 5151
+
+3.   Jalankan perintah `npm install`
+
+4.   Jalankan perintah `npm start:prod`
+
+5.   Akses dokumentasi api di `http://localhost:5151/api-docs`
+
 ## Setup Docker Compose
 
 1. Clone repository.
 
-2. bangun semua container dengan menggunakan `docker-compose build --no-cache`.
+2. Pastikan docker yang digunakan adalah versi terbaru.
 
-4. jalankan container dengan menggunakan `docker-compose up`.
+3. jalankan container dengan menggunakan `docker-compose up`.
 
    **Tips**:
 
@@ -41,13 +56,15 @@
    `docker-compose up --build`
 ```
 
-5. biarkan docker bekerja dan anda bisa minum secangkir kopi.
+4.  Akses dokumentasi api di `http://localhost:9182/api-docs`
 
-### Cleaning up
+5. Jika telah selesai, jalankan `docker-compose down` untuk menghapus container yang telah terbuat.
 
-1. When you're done, `Ctrl-C` in the main `docker-compose up` window to terminate the running processes.
 
-1. Run `docker-compose down` to stop and remove containers.
+## Unit test
+
+jalankan test dengan perintah `npm run test`
+
 ## Develop By
 
 | Programmer | github address |
