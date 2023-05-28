@@ -1,45 +1,39 @@
 version: '3.8'
 
 services:
-  automation_testing:
-    build: 
-      dockerfile: Dockerfile
+  tokokita_expressjs:
+    build:
       context: .
-    tty: true
+      dockerfile: Dockerfile
     ports:
       - 9182:5151
     depends_on:
-      - automation_db
-      - automation_testing_migration
+      - tokokita_db
+      - tokokita_migration
     env_file:
-      - .env.development
-    command: sh -c "npm run start:dev"
+      - .env.production
     volumes:
-      - type: volume
-        source: automation_module_volume
-        target: /app/node_modules
-      - type: bind
-        source: .
-        target: /app
-  
-  automation_testing_migration:
-    build: 
-      dockerfile: Dockerfile
+      - tokokita_volume:/app/node_modules
+      - .:/app
+
+  tokokita_migration:
+    build:
       context: .
+      dockerfile: Dockerfile
     depends_on:
-      - automation_db
+      - tokokita_db
     env_file:
-      - .env.development
-    command: sh -c "npm run db:migrate:development && npm run db:seed:development"
+      - .env.production
+    command: sh -c "npm run db:migrate:prod && npm run db:seed:prod"
     restart: on-failure
 
-  automation_db:
+  tokokita_db:
     image: postgres:14
     ports:
       - 5437:5432
     environment:
       - POSTGRES_PASSWORD=12345678
-      - POSTGRES_DB=automation
+      - POSTGRES_DB=tokokita
 
 volumes:
-  automation_module_volume:
+  tokokita_volume:
