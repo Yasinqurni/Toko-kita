@@ -2,32 +2,30 @@
   <a href="https://https://github.com/Debugging-demon/Bingle-Shop" target="blank"><img src="https://res.cloudinary.com/deb05crrf/image/upload/v1683719945/express_vre91p.webp" width="200" alt="Node.js" /></a>
 </p>
 
-<h1 align="center">TOKO KITA</h1>
+`<h1 align="center">TOKO KITA</h1>`
 
 ## Deskripsi Fitur
 -   source code dibangun dengan menggunakan Dependency Injection
+-   menggunakan cron job
+-   dapat berjalan di lokal atau menggunakan docker-compose
 
 -   stack yang digunakan adalah:
-    -   framework   : express.js
-    -   database    : postgresql
-    -   ORM         : sequelize
-
--   berikut adalah alamat swagger:
-```bash
-    http://44.204.11.143:9182/api-docs/
-```
-
-- seed user:
-    - user 1: 1212
-    - user 2: 9532
-
+    -   framework     : express.js
+    -   database      : postgresql (https://supabase.com/)
+    -   ORM           : sequelize 
+    -   Upload Image  : https://cloudinary.com/
+``
 ## Entity Relationship Diagram
 
 <p align="center">
-  <a href="https://github.com/Yasinqurni" target="blank"><img src="https://res.cloudinary.com/deb05crrf/image/upload/v1685283998/bingleshop_paw3f3.jpg" width="300" /></a>
+  <a href="https://github.com/Yasinqurni" target="blank"><img src="https://res.cloudinary.com/deb05crrf/image/upload/v1685283998/bingleshop_paw3f3.jpg" width="800" /></a>
 </p>
 
 
+
+<h2 align="center">Menjalankan Project</h2>
+
+## menjalanakan tanpa docker
 ## Setup Docker Compose
 
 1. Clone repository.
