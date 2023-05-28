@@ -23,7 +23,7 @@ module.exports = {
         allowNull: true
       },
       category: {
-        type: Sequelize.INTEGER,
+        type: Sequelize.STRING,
         allowNull: true,
       },
       price: {

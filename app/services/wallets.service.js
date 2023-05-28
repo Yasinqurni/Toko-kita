@@ -20,8 +20,8 @@ class walletService {
         return await this.query.Delete(id)
     }
 
-    async Update(id) {
-        return await this.query.Update(id)
+    async Update(id, saldo) {
+        return await this.query.Update(id, saldo)
     }
 
     async GetByUserId(id) {

@@ -59,7 +59,7 @@ class walletController {
             const auth = req.userId
 
             const payload = req.body.saldo
-            if(payload == undefined) { return responseHendler(res, message('please input saldo').errorMessage) } 
+            if(payload == undefined) { return responseHendler.notFound(res, message('please input saldo').errorMessage) } 
 
             const getUser = await this.userService.GetById(auth)
             if(!getUser) {return responseHendler.notFound(res, message('user').notFoundResource)}
@@ -67,8 +67,12 @@ class walletController {
             const getWallet = await this.walletService.GetByUserId(getUser.id)
             if(!getWallet) {return responseHendler.notFound(res, message('wallet').notFoundResource)}
 
-            const updateWallet = await this.walletService.Update(getUser.id, payload)
+            const saldoNow = getWallet.saldo + payload
+            const updateWallet = await this.walletService.Update(getWallet.id, saldoNow)
             if(!updateWallet) {return responseHendler.badRequest(res, message('cannot top up').errorMessage)}
+
+            const createHistory = await this.historyService.Create(getWallet.id, "top up saldo")
+            if(!createHistory){ return responseHendler.badRequest(res, message('error create history').errorMessage)}
 
             return responseHendler.ok(res, message('top up').success)
 

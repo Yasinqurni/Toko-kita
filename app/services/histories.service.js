@@ -4,8 +4,9 @@ class historyService {
         this.query = historyQueries
     }
 
-    async Create(userId, description, date){
-        return await this.query.Create(userId, description, date)
+    async Create(walletId, description){
+        const date = new Date()
+        return await this.query.Create(walletId, description, date)
     }
 
     async GetAll(walletId) {

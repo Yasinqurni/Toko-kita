@@ -4,9 +4,9 @@ class historyQueries {
         this.model = History
     }
 
-    async Create(userId, description, date) {
+    async Create(walletId, description, date) {
         return this.model.create({
-            wallet_id: userId,
+            wallet_id: walletId,
             description: description,
             date: date
         })

@@ -41,12 +41,14 @@ class walletQueries {
         })
     }
 
-    async Update(id, body) {
-        return this.model.update(body, {
-            where: { 
-                user_id: id,
-            }
-        })
+    async Update(id, saldo) {
+        return this.model.update(
+            {saldo: saldo}, 
+            {
+                where: { 
+                    id: id,
+                }
+            })
     }
 }
 
