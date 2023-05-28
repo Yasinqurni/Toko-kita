@@ -1,4 +1,4 @@
-
+const decorator = require('../decorators/wallets-decorator')
 const message = require('../../response-helpers/messages').MESSAGE
 const responseHendler = require('../../response-helpers/error-helper')
 
@@ -21,7 +21,8 @@ class walletController {
             const getWallet = await this.walletService.GetByUserId(getUser.id)
             if(!getWallet) {return responseHendler.notFound(res, message('wallet').notFoundResource)}
 
-            return responseHendler.ok(res, message('get wallet').success, getWallet) 
+            const data = decorator.myWallet(getWallet)
+            return responseHendler.ok(res, message('get wallet').success, data) 
         } 
         catch (error) {
             const key = error.message
@@ -99,7 +100,8 @@ class walletController {
             const getHistory = await this.historyService.GetAll(getWallet.id)
             if(!getHistory) {return responseHendler.notFound(res, message('wallet').notFoundResource)}
 
-            return responseHendler.ok(res, message('get transaction History').success, getHistory)
+            const data = await decorator.history(getHistory)
+            return responseHendler.ok(res, message('get transaction History').success, data)
         } 
         catch (error) {
             const key = error.message
