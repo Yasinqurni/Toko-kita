@@ -20,6 +20,14 @@ module.exports = {
           as: "wallet_id"
         }
       },
+      nominal: {
+        type: Sequelize.DOUBLE,
+        allowNull: true
+      },
+      type: {
+        type: Sequelize.STRING,
+        allowNull: true
+      },
       description: {
         type: Sequelize.STRING,
         allowNull: true

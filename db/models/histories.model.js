@@ -25,6 +25,14 @@ history.init(
     type: DataTypes.DATE,
     allowNull: true
     },
+    nominal: {
+      type: DataTypes.DOUBLE,
+      allowNull: true
+    },
+    type: {
+      type: DataTypes.STRING,
+      allowNull: true
+    },
   },
   {
     sequelize: sequelize,

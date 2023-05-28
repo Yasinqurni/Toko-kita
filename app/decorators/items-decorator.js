@@ -3,7 +3,7 @@ const itemDecoratorArray = async (item, pagination) => {
   const mappedItem = item.map((data) => {
 
     return {
-      // id_item: data.id,
+      id_item: data.id,
       name_item: data.name_item,
       category: data.category,
       description: data.item_description,
@@ -34,7 +34,7 @@ const itemDecoratorObject = (item) => {
   })
 
   const mappedItem = {
-    // id_item: item.id,
+    id_item: item.id,
     name_item: item.name_item,
     category: data.category,
     category_name: item.category.category_name,

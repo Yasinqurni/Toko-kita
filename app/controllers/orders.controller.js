@@ -97,7 +97,7 @@ class orderController {
             const updateSaldo = await this.walletService.Update(findWallet.id, saldoNew)
             if(!updateSaldo) { return responseHendler.badRequest(req, message('cannot update saldo').errorMessage) }
             //create history wallet
-            const history = await this.historyService.Create(findWallet.id, "pembayaran di aplikasi toko-kita")
+            const history = await this.historyService.Create(findWallet.id, findOrder.total_price,"cash out", "pembayaran di aplikasi toko-kita")
             if(!history) { return responseHendler.badRequest(req, message('cannot create history wallet').errorMessage)}
             //create transaction
             const createTransaction = await this.transactionService.CreateBulk(findItemCart, findOrder.id)

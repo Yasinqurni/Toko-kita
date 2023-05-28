@@ -7,12 +7,10 @@ const myWallet = (data) => {
 }
 
 const history = async (data) => {
-    
     const array = data.map((transaksi) => {
-        let no = 1
-        no++
         return {
-            no : no,
+            nominal: transaksi.nominal,
+            type: transaksi.type,
             description: transaksi.description,
             date: transaksi.date
         }

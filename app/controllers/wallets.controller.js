@@ -75,7 +75,7 @@ class walletController {
             const updateWallet = await this.walletService.Update(getWallet.id, saldoNow)
             if(!updateWallet) {return responseHendler.badRequest(res, message('cannot top up').errorMessage)}
 
-            const createHistory = await this.historyService.Create(getWallet.id, "top up saldo")
+            const createHistory = await this.historyService.Create(getWallet.id, payload, "cash in", "top up saldo")
             if(!createHistory){ return responseHendler.badRequest(res, message('error create history').errorMessage)}
 
             return responseHendler.ok(res, message('top up').success)

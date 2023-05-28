@@ -1,5 +1,6 @@
 const message = require('../../response-helpers/messages').MESSAGE
 const responseHendler = require('../../response-helpers/error-helper')
+const transaction = require('../decorators/transactions-decorator')
 
 
 class transactionController{
@@ -41,8 +42,9 @@ class transactionController{
 
             const get = await this.transactionService.GetAllByUserId(auth)
             if(get.length == 0) { return responseHendler.notFound(res, message('transaction').notFoundResource)}
-
-            return responseHendler.ok(res, message('get all transactions').success, get)
+            
+            const data = await transaction(get)
+            return responseHendler.ok(res, message('get all transactions').success, data)
         } 
         catch (error) {
             const key = error.message
