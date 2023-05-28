@@ -4,9 +4,10 @@ const responseHendler = require('../../response-helpers/error-helper')
 
 class walletController {
 
-    constructor(walletService, userService) {
+    constructor(walletService, userService, historyService) {
         this.walletService = walletService
         this.userService = userService
+        this.historyService = historyService
     }
 
     async myWallet(req, res) {
@@ -82,7 +83,19 @@ class walletController {
     async transactionHistory(req, res) {
 
         try {
-            
+
+            const auth = req.userId
+
+            const getUser = await this.userService.GetById(auth)
+            if(!getUser) {return responseHendler.notFound(res, message('user').notFoundResource)}
+
+            const getWallet = await this.walletService.GetByUserId(getUser.id)
+            if(!getWallet) {return responseHendler.notFound(res, message('wallet').notFoundResource)}
+
+            const getHistory = await this.historyService.GetAll(getWallet.id)
+            if(!getHistory) {return responseHendler.notFound(res, message('wallet').notFoundResource)}
+
+            return responseHendler.ok(res, message('get transaction History').success, getHistory)
         } 
         catch (error) {
             const key = error.message

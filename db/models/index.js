@@ -6,6 +6,7 @@ const Order = require('./orders.model')
 const Item_cart = require('./item_cart.model')
 const Transaction = require('./transaction.model')
 const Wallet = require('./wallet.model')
+const History = require('./histories.model')
 
 const sequelize = require('sequelize')
 
@@ -48,6 +49,10 @@ User.hasMany(Transaction, {foreignKey: 'user_id'})
 
 Transaction.belongsTo(User, {foreignKey: 'user_id'})
 
+Wallet.hasMany(History, {foreignKey: 'wallet_id'})
+
+History.belongsTo(Wallet, {foreignKey: 'wallet_id'})
+
 module.exports = {
     User,
     Item,
@@ -57,5 +62,6 @@ module.exports = {
     Item_cart,
     Transaction,
     Wallet,
+    History,
     sequelize
 }

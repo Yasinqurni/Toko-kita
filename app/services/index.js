@@ -6,6 +6,7 @@ const imageService = require('./images.service')
 const orderService = require('./orders.service')
 const transactionService = require('./transactions.service')
 const walletService = require('./wallets.service')
+const historyService = require('./histories.service')
 
 module.exports = {
     userService,
@@ -16,4 +17,5 @@ module.exports = {
     orderService,
     transactionService,
     walletService,
+    historyService,
 }
