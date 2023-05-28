@@ -31,7 +31,6 @@ class userController {
 
         catch (err) {
             const key = err.message
-            console.log(err)
             return responseHendler.internalError(res, message(key).errorMessage)
         }
     }

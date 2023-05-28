@@ -61,7 +61,7 @@
 5. Jika telah selesai, jalankan `docker-compose down` untuk menghapus container yang telah terbuat.
 
 
-## Unit test
+## Integration test
 
 jalankan test dengan perintah `npm run test`
 
