@@ -8,7 +8,7 @@ const auth = require('../middlewares/authorization')
 
 const itemqueries = new itemQueries(Item, Image, User)
 const cartqueries = new cartQueries(Cart, Item_cart, Item, User)
-const itemcartqueries = new itemCartQueries(Item_cart)
+const itemcartqueries = new itemCartQueries(Item_cart, Item)
 const itemservice = new itemService(itemqueries)
 const cartservice = new cartService(cartqueries)
 const itemcartservice = new itemCartService(itemcartqueries)

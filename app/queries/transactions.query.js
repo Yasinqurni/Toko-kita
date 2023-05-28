@@ -13,6 +13,10 @@ class transactionQueries {
         })
     }
 
+    async CreateBulk(payload) {
+        return this.model.bulkCreate(payload)
+    }
+
     async GetAll(auth) {
         return this.model.findAll({
             where: {user_id: auth},

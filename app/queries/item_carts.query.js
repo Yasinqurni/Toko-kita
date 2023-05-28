@@ -2,8 +2,9 @@
 
 class itemCartQueries {
 
-    constructor(Item_cart) {
+    constructor(Item_cart, Item) {
         this.model = Item_cart
+        this.item = Item
     }
 
     async Create (payloadItem, payloadCart, qty, totalprice) {
@@ -15,12 +16,14 @@ class itemCartQueries {
         })
     }
     
-    async GetAll (payload) {
+    async GetAll(payload) {
         return this.model.findAll({
-            where: { cart_id: payload.id}
-          })
-        
-    }
+          where: { cart_id: payload.id },
+          include: [
+            { model: this.item }
+          ]
+        });
+      }
 }
 
 module.exports = itemCartQueries

@@ -3,12 +3,15 @@ const responseHendler = require('../../response-helpers/error-helper')
 
 class orderController {
 
-    constructor(cartService, orderService, itemCartService, itemService) {
+    constructor(cartService, orderService, itemCartService, itemService, walletService, historyService, transactionService) {
         
         this.cartService = cartService
         this.orderService = orderService
         this.itemCartService = itemCartService
         this.itemService = itemService
+        this.walletService = walletService
+        this.historyService = historyService
+        this.transactionService = transactionService
 
     }
 
@@ -53,8 +56,6 @@ class orderController {
             if (!updateCart) { return responseHendler.badRequest(res, message('cart').invalidCreateResource) }
 
             //update 
-
-
             return responseHendler.ok(res, message('checkout').success)
 
         }
@@ -67,30 +68,47 @@ class orderController {
     }
 
     async confirmPayment(req, res) {
-        //update order status dari pending menjadi success
-        //update cart status dari process menjadi success 
+
         try {
             //update order
             const auth = req.userId
+
             const findOrder = await this.orderService.GetByStatus(auth, 'pending')
             if (!findOrder) { return responseHendler.notFound(res, message('order').notFoundResource) }
+
+            const findCart = await this.cartService.GetByStatus('process', findOrder.user_id)
+            if (!findCart) { return responseHendler.notFound(res, message('cart').notFoundResource)}
+
+            const findItemCart = await this.itemCartService.GetAll(findCart)
+            if (findItemCart.length == 0) { return responseHendler.notFound(res, message('item_cart').notFoundResource) }
+
+            const findWallet = await this.walletService.GetByUserId(auth)
+            if (!findWallet) { return responseHendler.notFound(res, message('please create wallet').errorMessage)}
+            if(findWallet.saldo < findOrder.total_price) { return responseHendler.notFound(res, message('please top up saldo').errorMessage) }
 
             const updateOrder = await this.orderService.Update(findOrder, 'success')
             if (!updateOrder) { return responseHendler.badRequest(res, message('order').invalidCreateResource) }
 
             // Update cart
-            const findCart = await this.cartService.GetByStatus('process', findOrder.user_id)
-            if (!findCart) { return responseHendler.notFound(res, message('cart').notFoundResource) }
-
             const updateCart = await this.cartService.Update('success', findCart)
             if (!updateCart) { return responseHendler.badRequest(res, message('cart').invalidCreateResource) }
+            //update saldo wallet
+            const saldoNew = findWallet.saldo - findOrder.total_price
+            const updateSaldo = await this.walletService.Update(findWallet.id, saldoNew)
+            if(!updateSaldo) { return responseHendler.badRequest(req, message('cannot update saldo').errorMessage) }
+            //create history wallet
+            const history = await this.historyService.Create(findWallet.id, "pembayaran di aplikasi toko-kita")
+            if(!history) { return responseHendler.badRequest(req, message('cannot create history wallet').errorMessage)}
+            //create transaction
+            const createTransaction = await this.transactionService.CreateBulk(findItemCart, findOrder.id)
+            if(!createTransaction) { return responseHendler.badRequest(res, message('error create transactions').errorMessage)}
 
             return responseHendler.ok(res, message('confirm payment').success)
-
         }
 
         catch (err) {
             const key = err.message
+            console.log(err)
             return responseHendler.internalError(res, message(key).errorMessage)
         }
 

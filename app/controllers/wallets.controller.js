@@ -38,6 +38,9 @@ class walletController {
 
             const getUser = await this.userService.GetById(auth)
             if(!getUser) {return responseHendler.notFound(res, message('user').notFoundResource)}
+            
+            const getWallet = await this.walletService.GetByUserId(getUser.id)
+            if(getWallet) {return responseHendler.notFound(res, message('you already have a wallet').errorMessage)}
 
             const createWallet = await this.walletService.Create(getUser.id, 0)
             if(!createWallet) {return responseHendler.badRequest(res, message('wallet').invalidCreateResource)}

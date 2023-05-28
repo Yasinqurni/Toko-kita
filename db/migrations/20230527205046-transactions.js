@@ -11,6 +11,15 @@ module.exports = {
         primaryKey: true,
         autoIncrement: true
       },
+      user_id: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
+        references : {
+          model: "users",
+          key: "id",
+          as: "user_id"
+        }
+      },
       order_id: {
         type: Sequelize.INTEGER,
         allowNull: false,
