@@ -2,7 +2,7 @@
   <a href="https://https://github.com/Debugging-demon/Bingle-Shop" target="blank"><img src="https://res.cloudinary.com/deb05crrf/image/upload/v1683719945/express_vre91p.webp" width="200" alt="Node.js" /></a>
 </p>
 
-`<h1 align="center">TOKO KITA</h1>`
+<h1 align="center">TOKO KITA</h1>
 
 ## Deskripsi Fitur
 -   source code dibangun dengan menggunakan Dependency Injection
