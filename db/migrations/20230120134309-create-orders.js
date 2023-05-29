@@ -35,6 +35,10 @@ module.exports = {
           type: Sequelize.STRING,
           allowNull: false
         },
+        wallet_id: {
+          type: Sequelize.INTEGER,
+          allowNull: true
+        },
         created_at: {
           type: Sequelize.DATE,
           defaultValue: Date.now()

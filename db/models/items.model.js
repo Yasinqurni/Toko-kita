@@ -20,10 +20,9 @@ item.init(
         type: DataTypes.STRING,
         allowNull: true
       },
-      category_id: {
-        type: DataTypes.INTEGER,
+      category: {
+        type: DataTypes.STRING,
         allowNull: true,
-        field: 'category_id'
       },
       price: {
         type: DataTypes.DOUBLE,

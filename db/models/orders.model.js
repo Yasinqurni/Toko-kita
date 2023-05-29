@@ -28,7 +28,12 @@ order.init(
       status_order: {
         type: DataTypes.STRING,
         allowNull: false
-      }
+      },
+      wallet_id: {
+        type: DataTypes.INTEGER,
+        allowNull: true,
+        field: 'cart_id'
+      },
   },
   {
     sequelize: sequelize,

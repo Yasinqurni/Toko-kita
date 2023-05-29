@@ -1,73 +1,75 @@
 <p align="center">
-  <a href="https://https://github.com/Debugging-demon/Bingle-Shop" target="blank"><img src="https://res.cloudinary.com/deb05crrf/image/upload/v1683719945/express_vre91p.webp" width="200" alt="Node.js" /></a>
+  <a href="https://github.com/Yasinqurni/Toko-kita" target="blank"><img src="https://res.cloudinary.com/deb05crrf/image/upload/v1683719945/express_vre91p.webp" width="200" alt="Node.js" /></a>
 </p>
 
-<h1 align="center">Bingle-Shop</h1>
+<h1 align="center">TOKO KITA</h1>
 
-## Requirements
+## Deskripsi Fitur
 
-- [Docker](https://www.docker.com/)
-- [Docker Compose](https://docs.docker.com/compose/)
+-   Source code dibangun dengan menggunakan Dependency Injection
 
-## Feature
+-   Menggunakan cron job
 
-- Clean code
-- Docker and docker-compose
-- automation Testing
+-   Dapat berjalan di lokal atau menggunakan docker-compose
 
-## Setup
+-   Stack yang digunakan adalah:
+    -   framework     : express.js
+    -   database      : postgresql (https://supabase.com/)
+    -   ORM           : sequelize 
+    -   Upload Image  : https://cloudinary.com/
 
-### Building and running the dockerized codebase
+## Entity Relationship Diagram
 
-1. Clone the repository.
+<p align="center">
+  <a href="https://github.com/Yasinqurni" target="blank"><img src="https://res.cloudinary.com/deb05crrf/image/upload/v1685283998/bingleshop_paw3f3.jpg" width="800" /></a>
+</p>
 
-2. Build all containers using:
-```bash
-docker-compose build --no-cache
-```
 
-3. Run all containers using: 
-```bash
-docker-compose up
-```
+
+
+<h2 align="center">Menjalankan Project</h2>
+
+## Menjalanakan tanpa docker
+
+1.   Clone source repository dari github
+
+2.   Ganti port yang ada di file swagger.yaml menjadi 5151
+
+3.   Jalankan perintah `npm install`
+
+4.   Jalankan perintah `npm start:prod`
+
+5.   Akses dokumentasi api di `http://localhost:5151/api-docs`
+
+## Setup Docker Compose
+
+1. Clone repository.
+
+2. Pastikan docker yang digunakan adalah versi terbaru.
+
+3. jalankan container dengan menggunakan `docker-compose up`.
 
    **Tips**:
 
-   - Use `--build` in `docker-compose` to force update the docker image created, e.g. `docker-compose up --build`
+   - gunakan `--build` di `docker-compose` untuk memaksa memperbarui image yang telah dibuat, e.g:
+```bash
+   `docker-compose up --build`
+```
 
-1. The docker and docker compose will setup all requirements on the fly, and please provide coffee as this may take a few minutes.
+4.  Akses dokumentasi api di `http://localhost:9182/api-docs`
 
-1. If have finished it, that means you can use this server with all databases and data ready to use.
-### Cleaning up
+5. Jika telah selesai, jalankan `docker-compose down` untuk menghapus container yang telah terbuat.
 
-1. When you're done, `Ctrl-C` in the main `docker-compose up` window to terminate the running processes.
 
-1. Run `docker-compose down` to stop and remove containers.
+## Integration test
+
+jalankan test dengan perintah `npm run test`
 
 ## Develop By
 
 | Programmer | github address |
 | ---------- | -------------- |
 | Muhammad yasin Alqurni | https://github.com/Yasinqurni |
-| Tabah Salahudin Amri | https://github.com/amritsalahudin69 |
-| Tegar Sahaduta | https://github.com/sahaduta |
-| Ridho Ghiffary Muhammad | https://github.com/ridhoghiffary |
-| Yusron Abdullah | https://github.com/ridhoghiffary |
 
-
-<!-- markdownlint-enable -->
-<!-- prettier-ignore-end -->
-<!-- ALL-CONTRIBUTORS-LIST:END -->
-
-## License
-<h1 align="center">
-<table>
-  <tr>
-    <td align="center"><a href="https://github.com/orgs/Debugging-demon/people"><img src="https://avatars.githubusercontent.com/u/125386377?s=200&v=4" width="100px;" alt=""/><br /><sub><b>Debugging-demon</b></sub></a></td>
-  </tr>
-</table>
-</h1>
-
-
-Copyright (c) 2023 Debugging Demon (Backend Bootcamp Team at Binar Academy)
+Copyright (c) 2023 Muhammad Yasin Alqurni
 All rights reserved.

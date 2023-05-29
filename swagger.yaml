@@ -1,0 +1,724 @@
+swagger: '2.0'
+info:
+  version: '1.0'
+  title: TOKO-KITA
+  contact: {}
+host: localhost:9182
+basePath: /v1/api
+securityDefinitions: {}
+schemes:
+- http
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+  /register/seller:
+    post:
+      summary: Register Seller
+      tags:
+      - Auth
+      operationId: RegisterSeller
+      deprecated: false
+      produces:
+      - application/json
+      parameters:
+      - name: Body
+        in: body
+        required: true
+        description: ''
+        schema:
+          $ref: '#/definitions/RegisterSellerRequest'
+      responses:
+        '200':
+          description: ''
+          headers: {}
+  /register/user:
+    post:
+      summary: Register User
+      tags:
+      - Auth
+      operationId: RegisterUser
+      deprecated: false
+      produces:
+      - application/json
+      parameters:
+      - name: Body
+        in: body
+        required: true
+        description: ''
+        schema:
+          $ref: '#/definitions/RegisterUserRequest'
+      responses:
+        '200':
+          description: ''
+          headers: {}
+  /login:
+    post:
+      summary: Login
+      tags:
+      - Auth
+      operationId: Login
+      deprecated: false
+      produces:
+      - application/json
+      parameters:
+      - name: Body
+        in: body
+        required: true
+        description: ''
+        schema:
+          $ref: '#/definitions/LoginRequest'
+      responses:
+        '200':
+          description: ''
+          headers: {}
+  /profile:
+    get:
+      summary: Profil User
+      tags:
+      - Auth
+      operationId: ProfilUser
+      deprecated: false
+      produces:
+      - application/json
+      parameters:
+      - name: authorization
+        in: header
+        required: true
+        type: string
+        description: ''
+      responses:
+        '200':
+          description: ''
+          headers: {}
+      security: []
+  /item:
+    post:
+      summary: Upload Item
+      tags:
+      - Items
+      operationId: UploadItem
+      deprecated: false
+      produces:
+      - application/json
+      parameters:
+      - name: authorization
+        in: header
+        required: true
+        type: string
+        description: ''
+      - name: Body
+        in: body
+        required: true
+        description: ''
+        schema:
+          $ref: '#/definitions/UploadItemRequest'
+      responses:
+        '200':
+          description: ''
+          headers: {}
+      security: []
+    get:
+      summary: Get All Items
+      tags:
+      - Items
+      operationId: GetAllItems
+      deprecated: false
+      produces:
+      - application/json
+      parameters:
+      - name: authorization
+        in: header
+        required: true
+        type: string
+        description: ''
+      responses:
+        '200':
+          description: ''
+          headers: {}
+      security: []
+  /item/{id}:
+    get:
+      summary: Get item By Id
+      tags:
+      - Items
+      operationId: GetitemById
+      deprecated: false
+      produces:
+      - application/json
+      parameters:
+      - name: id
+        in: path
+        required: true
+        type: integer
+        format: int32
+        description: ''
+      - name: authorization
+        in: header
+        required: true
+        type: string
+        description: ''
+      responses:
+        '200':
+          description: ''
+          headers: {}
+      security: []
+    delete:
+      summary: Delete Item
+      tags:
+      - Items
+      operationId: DeleteItem
+      deprecated: false
+      produces:
+      - application/json
+      parameters:
+      - name: id
+        in: path
+        required: true
+        type: integer
+        format: int32
+        description: ''
+      - name: authorization
+        in: header
+        required: true
+        type: string
+        description: ''
+      responses:
+        '200':
+          description: ''
+          headers: {}
+      security: []
+    patch:
+      summary: Update Item
+      tags:
+      - Items
+      operationId: UpdateItem
+      deprecated: false
+      produces:
+      - application/json
+      parameters:
+      - name: id
+        in: path
+        required: true
+        type: integer
+        format: int32
+        description: ''
+      - name: authorization
+        in: header
+        required: true
+        type: string
+        description: ''
+      - name: Body
+        in: body
+        required: true
+        description: ''
+        schema:
+          $ref: '#/definitions/UpdateItemRequest'
+      responses:
+        '200':
+          description: ''
+          headers: {}
+      security: []
+  /itemseller:
+    get:
+      summary: Seller Collection
+      tags:
+      - Items
+      operationId: SellerCollection
+      deprecated: false
+      produces:
+      - application/json
+      parameters:
+      - name: authorization
+        in: header
+        required: true
+        type: string
+        description: ''
+      responses:
+        '200':
+          description: ''
+          headers: {}
+      security: []
+  /cart/{id}:
+    post:
+      summary: Add to Cart
+      tags:
+      - Cart
+      operationId: AddtoCart
+      deprecated: false
+      produces:
+      - application/json
+      parameters:
+      - name: id
+        in: path
+        required: true
+        type: integer
+        format: int32
+        description: ''
+      - name: authorization
+        in: header
+        required: true
+        type: string
+        description: ''
+      - name: Body
+        in: body
+        required: true
+        description: ''
+        schema:
+          $ref: '#/definitions/AddtoCartRequest'
+      responses:
+        '200':
+          description: ''
+          headers: {}
+      security: []
+  /cart:
+    get:
+      summary: Get Cart
+      tags:
+      - Cart
+      operationId: GetCart
+      deprecated: false
+      produces:
+      - application/json
+      parameters:
+      - name: authorization
+        in: header
+        required: true
+        type: string
+        description: ''
+      responses:
+        '200':
+          description: ''
+          headers: {}
+      security: []
+  /image/{id}:
+    post:
+      summary: Upload Image
+      tags:
+      - Image
+      operationId: UploadImage
+      deprecated: false
+      produces:
+      - application/json
+      consumes:
+      - multipart/form-data
+      parameters:
+      - name: id
+        in: path
+        required: true
+        type: integer
+        format: int32
+        description: ''
+      - name: authorization
+        in: header
+        required: true
+        type: string
+        description: ''
+      - name: file
+        in: formData
+        required: true
+        type: file
+        format: file
+        description: ''
+      responses:
+        '200':
+          description: ''
+          headers: {}
+      security: []
+    delete:
+      summary: Delete Image
+      tags:
+      - Image
+      operationId: DeleteImage
+      deprecated: false
+      produces:
+      - application/json
+      parameters:
+      - name: id
+        in: path
+        required: true
+        type: integer
+        format: int32
+        description: ''
+      - name: authorization
+        in: header
+        required: true
+        type: string
+        description: ''
+      responses:
+        '200':
+          description: ''
+          headers: {}
+      security: []
+  /order:
+    post:
+      summary: checkout
+      tags:
+      - Order
+      operationId: checkout
+      deprecated: false
+      produces:
+      - application/json
+      parameters:
+      - name: authorization
+        in: header
+        required: true
+        type: string
+        description: ''
+      responses:
+        '200':
+          description: ''
+          headers: {}
+      security: []
+    patch:
+      summary: Confirm Payment
+      tags:
+      - Order
+      operationId: ConfirmPayment
+      deprecated: false
+      produces:
+      - application/json
+      parameters:
+      - name: authorization
+        in: header
+        required: true
+        type: string
+        description: ''
+      responses:
+        '200':
+          description: ''
+          headers: {}
+      security: []
+    delete:
+      summary: Cancel Order
+      tags:
+      - Order
+      operationId: CancelOrder
+      deprecated: false
+      produces:
+      - application/json
+      parameters:
+      - name: authorization
+        in: header
+        required: true
+        type: string
+        description: ''
+      responses:
+        '200':
+          description: ''
+          headers: {}
+      security: []
+  /wallet:
+    get:
+      summary: Cek Saldo
+      tags:
+      - Wallet
+      operationId: CekSaldo
+      deprecated: false
+      produces:
+      - application/json
+      parameters:
+      - name: authorization
+        in: header
+        required: true
+        type: string
+        description: ''
+      responses:
+        '200':
+          description: ''
+          headers: {}
+      security: []
+    post:
+      summary: Sign Wallet
+      tags:
+      - Wallet
+      operationId: SignWallet
+      deprecated: false
+      produces:
+      - application/json
+      parameters:
+      - name: authorization
+        in: header
+        required: true
+        type: string
+        description: ''
+      responses:
+        '200':
+          description: ''
+          headers: {}
+      security: []
+    patch:
+      summary: Top Up
+      tags:
+      - Wallet
+      operationId: TopUp
+      deprecated: false
+      produces:
+      - application/json
+      parameters:
+      - name: authorization
+        in: header
+        required: true
+        type: string
+        description: ''
+      - name: Body
+        in: body
+        required: true
+        description: ''
+        schema:
+          $ref: '#/definitions/TopUpRequest'
+      responses:
+        '200':
+          description: ''
+          headers: {}
+      security: []
+  /history:
+    get:
+      summary: Get Transaction History
+      tags:
+      - Wallet
+      operationId: GetTransactionHistory
+      deprecated: false
+      produces:
+      - application/json
+      parameters:
+      - name: authorization
+        in: header
+        required: true
+        type: string
+        description: ''
+      responses:
+        '200':
+          description: ''
+          headers: {}
+      security: []
+  /transaction:
+    get:
+      summary: Get Transaction Seller
+      tags:
+      - Transaction
+      operationId: GetTransactionSeller
+      deprecated: false
+      produces:
+      - application/json
+      parameters:
+      - name: authorization
+        in: header
+        required: true
+        type: string
+        description: ''
+      responses:
+        '200':
+          description: ''
+          headers: {}
+      security: []
+  /onprocess/{id}:
+    patch:
+      summary: Update Status On-process
+      tags:
+      - Transaction
+      operationId: UpdateStatusOn-process
+      deprecated: false
+      produces:
+      - application/json
+      parameters:
+      - name: id
+        in: path
+        required: true
+        type: integer
+        format: int32
+        description: ''
+      - name: authorization
+        in: header
+        required: true
+        type: string
+        description: ''
+      responses:
+        '200':
+          description: ''
+          headers: {}
+      security: []
+  /shipping/{id}:
+    patch:
+      summary: Update Status Shipping
+      tags:
+      - Transaction
+      operationId: UpdateStatusShipping
+      deprecated: false
+      produces:
+      - application/json
+      parameters:
+      - name: id
+        in: path
+        required: true
+        type: integer
+        format: int32
+        description: ''
+      - name: authorization
+        in: header
+        required: true
+        type: string
+        description: ''
+      responses:
+        '200':
+          description: ''
+          headers: {}
+      security: []
+  /delivered/{id}:
+    patch:
+      summary: Update Status Delivered
+      tags:
+      - Transaction
+      operationId: UpdateStatusDelivered
+      deprecated: false
+      produces:
+      - application/json
+      parameters:
+      - name: id
+        in: path
+        required: true
+        type: integer
+        format: int32
+        description: ''
+      - name: authorization
+        in: header
+        required: true
+        type: string
+        description: ''
+      responses:
+        '200':
+          description: ''
+          headers: {}
+      security: []
+definitions:
+  RegisterSellerRequest:
+    title: RegisterSellerRequest
+    example:
+      fullname: Lala1
+      address: gg. masjid alfatah
+      phone: '082239236521'
+      email: yalqurni1@gmail.com
+      password: makannasi
+    type: object
+    properties:
+      fullname:
+        type: string
+      address:
+        type: string
+      phone:
+        type: string
+      email:
+        type: string
+      password:
+        type: string
+    required:
+    - fullname
+    - address
+    - phone
+    - email
+    - password
+  RegisterUserRequest:
+    title: RegisterUserRequest
+    example:
+      fullname: Yasin
+      address: gg. masjid alfatah
+      phone: '082239236521'
+      email: yalqurni@gmail.com
+      password: makannasi
+    type: object
+    properties:
+      fullname:
+        type: string
+      address:
+        type: string
+      phone:
+        type: string
+      email:
+        type: string
+      password:
+        type: string
+    required:
+    - fullname
+    - address
+    - phone
+    - email
+    - password
+  LoginRequest:
+    title: LoginRequest
+    example:
+      email: yalqurni1@gmail.com
+      password: makannasi
+    type: object
+    properties:
+      email:
+        type: string
+      password:
+        type: string
+    required:
+    - email
+    - password
+  UploadItemRequest:
+    title: UploadItemRequest
+    example:
+      name_item: I Phone 6s seller baru
+      category_id: '1'
+      price: 1200000
+      quantity: 60
+    type: object
+    properties:
+      name_item:
+        type: string
+      category_id:
+        type: string
+      price:
+        type: integer
+        format: int32
+      quantity:
+        type: integer
+        format: int32
+    required:
+    - name_item
+    - category_id
+    - price
+    - quantity
+  UpdateItemRequest:
+    title: UpdateItemRequest
+    example:
+      name_item: I Phone 7s
+    type: object
+    properties:
+      name_item:
+        type: string
+    required:
+    - name_item
+  AddtoCartRequest:
+    title: AddtoCartRequest
+    example:
+      quantity_order: 1
+    type: object
+    properties:
+      quantity_order:
+        type: integer
+        format: int32
+    required:
+    - quantity_order
+  TopUpRequest:
+    title: TopUpRequest
+    example:
+      saldo: 3000000
+    type: object
+    properties:
+      saldo:
+        type: integer
+        format: int32
+    required:
+    - saldo
+tags:
+- name: Auth
+- name: Items
+- name: Cart
+- name: Image
+- name: Order
+- name: Wallet
+- name: Transaction

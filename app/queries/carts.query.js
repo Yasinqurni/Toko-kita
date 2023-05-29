@@ -1,65 +1,65 @@
-const { Cart, Item_cart, Item, User } = require('../../db/models')
 
+class cartQueries {
 
+    constructor(Cart, Item_cart, Item, User) {
+        this.cart = Cart
+        this.itemCart = Item_cart
+        this.item = Item
+        this.user = User
+    }
 
-const findOneCart = async (status, auth) => {
-    return Cart.findOne({
-        where: { 
-            status_cart: status,
+    async GetByStatus (status, auth) {
+        return this.cart.findOne({
+            where: { 
+                status_cart: status,
+                user_id: auth,
+                },
+            include: [
+                {
+                    model: this.user
+                },
+                {
+                    model: this.itemCart,
+                    include: {
+                        model: this.item,
+                    }
+                }
+            ],
+                
+        })
+    } 
+    
+    async Create (status, auth) {
+        return this.cart.create({
             user_id: auth,
-            },
-        include: [
-            {
-                model: User,
-            },
-            {
-                model: Item_cart,
-                include: {
-                    model: Item,
+            status_cart: status
+        })
+    }
+    
+    async GetAll (auth) {
+        return this.cart.findAll({
+            include: [
+                {
+                    model: this.user,
+                },
+                {
+                    model: this.itemCart,
+                    include: {
+                        model: this.item,
+                    }
                 }
-            }
-        ],
-            
-    })
-} 
-
-const createCart = async (status, auth) => {
-    return Cart.create({
-        user_id: auth,
-        status_cart: status
-    })
+            ],
+            where: {user_id: auth}
+        })
+       
+    }
+    
+    async Update (status, payload) {
+        return this.cart.update(
+            { status_cart: status },
+            { where: {id: payload.id}}
+        )
+    }
 }
 
-const findAllCart = async (auth) => {
-    return Cart.findAll({
-        include: [
-            {
-                model: User,
-            },
-            {
-                model: Item_cart,
-                include: {
-                    model: Item,
-                }
-            }
-        ],
-        where: {user_id: auth}
-    })
-   
-}
-
-const updateCart = async (status, payload) => {
-    return Cart.update(
-        { status_cart: status },
-        { where: {id: payload.id}}
-    )
-}
-
-   
-module.exports = {
-    findOneCart,
-    findAllCart,
-    createCart,
-    updateCart,
-
-}
+module.exports = cartQueries

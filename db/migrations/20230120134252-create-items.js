@@ -22,14 +22,9 @@ module.exports = {
         type: Sequelize.STRING,
         allowNull: true
       },
-      category_id: {
-        type: Sequelize.INTEGER,
+      category: {
+        type: Sequelize.STRING,
         allowNull: true,
-        references : {
-          model: "categories",
-          key: "id",
-          as: "category_id"
-        }
       },
       price: {
         type: Sequelize.DOUBLE,

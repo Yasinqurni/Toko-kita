@@ -1,10 +1,15 @@
 const express = require('express')
-const app = express()
-const {userRouter, itemRouter, cartRouter, orderRouter, imageRouter } = require('./app/routers')
+
+
+const {userRouter, itemRouter, cartRouter, orderRouter, imageRouter, walletRouter, transactionRouter } = require('./app/routers')
 const bodyParser = require('body-parser')
-// const swaggerUi = require(`swagger-ui-express`)
-// const YAML = require('yamljs');
-// const swaggerDocument = YAML.load(`./swagger.yml`);
+
+
+const app = express()
+const swaggerUi = require(`swagger-ui-express`)
+const YAML = require('yamljs');
+const swaggerDocument = YAML.load(`./swagger.yaml`)
+
 
 app.use(bodyParser.json())
 app.use(express.urlencoded({extended: true}))
@@ -14,7 +19,11 @@ app.use('/v1', itemRouter)
 app.use('/v1', cartRouter)
 app.use('/v1', orderRouter)
 app.use('/v1', imageRouter)
-// app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument))
+app.use('/v1', walletRouter)
+app.use('/v1', transactionRouter)
+
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument))
 
 
-module.exports = app
+
+module.exports = app  

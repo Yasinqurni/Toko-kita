@@ -1,24 +1,27 @@
-
-const { userController } = require('../controllers/user.controller')
-const router = require('express').Router()
+const { User } = require('../../db/models')
+const { userQueries} = require('../queries')
+const { userService } = require('../services')
+const { userController } = require('../controllers')
 const { tokenJwt } = require('../middlewares/authentication')
-const { authorization } = require('../middlewares/authorization')
+const formatValidator = require('../middlewares/user.validation')
+const generateToken = require('../../lib/jwt')
+const isMatch = require('../../lib/bcrypt')
 
-const usercontroller = new userController()
+const userqueries = new userQueries(User)
+const userservice = new userService(userqueries)
+const usercontroller = new userController(userservice, formatValidator, generateToken, isMatch)
 const tokenjwt = new tokenJwt()
 
 
+const router = require('express').Router()
 //router user
-router.post('/api/register/user', usercontroller.registerUser)
+router.post('/api/register/user', usercontroller.registerUser.bind(usercontroller))
 // router seller
-router.post('/api/register/seller', usercontroller.registerSeller)
-//router admin
-router.post('/api/register/admin', usercontroller.registerAdmin)
+router.post('/api/register/seller', usercontroller.registerSeller.bind(usercontroller))
 //router login
-router.post('/api/login', usercontroller.loginUser)
+router.post('/api/login', usercontroller.loginUser.bind(usercontroller))
 //router cek profile
-router.get('/api/profile', tokenjwt.verifyToken, usercontroller.profileUser) //
+router.get('/api/profile', tokenjwt.verifyToken, usercontroller.profileUser.bind(usercontroller)) //
 
-router.get("/api/verify-email", usercontroller.verificationUser)
 
 module.exports = router
