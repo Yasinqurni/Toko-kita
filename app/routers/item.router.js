@@ -1,31 +1,30 @@
 
-const {Item, Image, User} = require('../../db/models')
-const {itemQueries} = require('../queries')
-const {itemService} = require('../services')
-const { itemController } = require('../controllers')
-const router = require('express').Router()
-const { tokenJwt } = require('../middlewares/authentication')
-const auth = require('../middlewares/authorization')
-const pagination = require('../services/pagination')
+class itemRouter {
+    constructor(router, itemController, tokenJwt, auth) {
+        this.router = router
+        this.itemController = itemController
+        this.tokenJwt = tokenJwt,
+        this.auth = auth
+        //Create Item Endpoint
+        this.router.post('/api/item',this.tokenJwt.verifyToken, this.auth.authorization('seller'), this.itemController.createItem.bind(this.itemController))
+        //read Item Endpoint
+        this.router.get('/api/item', this.tokenJwt.verifyToken, this.itemController.readItem.bind(this.itemController))
+        //read Item by id Endpoint
+        this.router.get('/api/item/:id', this.tokenJwt.verifyToken, this.itemController.readItemById.bind(this.itemController))
+        //delete Item Endpoint
+        this.router.delete('/api/item/:id', this.tokenJwt.verifyToken, this.auth.authorization('seller'), this.itemController.deleteItem.bind(this.itemController))
+        //update Item Endpoint
+        this.router.patch('/api/item/:id',this.tokenJwt.verifyToken, this.auth.authorization('seller'), this.itemController.updateItem.bind(this.itemController))
+        //get item for seller
+        this.router.get('/api/itemseller',this.tokenJwt.verifyToken, this.auth.authorization('seller'), this.itemController.getItemSeller.bind(this.itemController))
 
-const itemqueries = new itemQueries(Item, Image, User)
-const itemservice = new itemService(itemqueries)
-const itemcontroller = new itemController(itemservice, pagination)
-const tokenjwt = new tokenJwt()
+    }
+
+    getRouter() {
+        return this.router
+      }
+  
+}
 
 
-//Create Item Endpoint
-router.post('/api/item',tokenjwt.verifyToken, auth.authorization('seller'), itemcontroller.createItem.bind(itemcontroller))
-//read Item Endpoint
-router.get('/api/item', tokenjwt.verifyToken, itemcontroller.readItem.bind(itemcontroller))
-//read Item by id Endpoint
-router.get('/api/item/:id', tokenjwt.verifyToken, itemcontroller.readItemById.bind(itemcontroller))
-//delete Item Endpoint
-router.delete('/api/item/:id', tokenjwt.verifyToken, auth.authorization('seller'), itemcontroller.deleteItem.bind(itemcontroller))
-//update Item Endpoint
-router.patch('/api/item/:id',tokenjwt.verifyToken, auth.authorization('seller'), itemcontroller.updateItem.bind(itemcontroller))
-//get item for seller
-router.get('/api/itemseller',tokenjwt.verifyToken, auth.authorization('seller'), itemcontroller.getItemSeller.bind(itemcontroller))
-
-
-module.exports = router
+module.exports = itemRouter

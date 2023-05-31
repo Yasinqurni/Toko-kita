@@ -1,21 +1,21 @@
-const {Item, Image, User} = require('../../db/models')
-const {imageQueries, itemQueries} = require('../queries')
-const {imageService, itemService} = require('../services')
-const { imageController } = require('../controllers')
-const { tokenJwt } = require('../middlewares/authentication')
-const auth = require('../middlewares/authorization')
-const upload = require('../services/upload')
 
-const imagequeries = new imageQueries(Image)
-const itemqueries = new itemQueries(Item, Image, User)
-const imageservice = new imageService(imagequeries)
-const itemservice = new itemService(itemqueries)
-const imagecontroller = new imageController(imageservice, itemservice, upload)
-const tokenjwt = new tokenJwt()
+class imageRouter {
+    constructor(router, imageController, tokenJwt, auth) {
+        this.router = router
+        this.imageController = imageController
+        this.tokenJwt = tokenJwt,
+        this.auth = auth
 
-const router = require('express').Router()
+        this.router.post('/api/image/:id', this.tokenJwt.verifyToken, this.auth.authorization('seller'), this.imageController.uploadImage.bind(this.imageController))
+        this.router.delete('/api/image/:id', this.tokenJwt.verifyToken, this.auth.authorization('seller'), this.imageController.removeImage.bind(this.imageController))
+        
+    }
 
-router.post('/api/image/:id', tokenjwt.verifyToken, auth.authorization('seller'), imagecontroller.uploadImage.bind(imagecontroller))
-router.delete('/api/image/:id', tokenjwt.verifyToken, auth.authorization('seller'), imagecontroller.removeImage.bind(imagecontroller))
+    getRouter() {
+        return this.router
+      }
+  
+}
 
-module.exports = router
+
+module.exports = imageRouter

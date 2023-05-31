@@ -1,29 +1,26 @@
-const {History, Wallet, User} = require('../../db/models')
-const {userQueries, walletQueries, historyQueries} = require('../queries')
-const {walletService, userService, historyService} = require('../services')
-const {walletController} = require('../controllers')
-const { tokenJwt } = require('../middlewares/authentication')
 
-const userqueries = new userQueries(User)
-const walletqueries = new walletQueries(Wallet)
-const historyqueries = new historyQueries(History)
-const walletservice = new walletService(walletqueries)
-const userservice = new userService(userqueries)
-const historyservice = new historyService(historyqueries)
-const walletcontroller = new walletController(walletservice, userservice, historyservice)
+class wallerRouter{
 
-const tokenjwt = new tokenJwt()
+    constructor(router, walletController, tokenJwt, auth) {
 
+        this.router = router
+        this.walletController = walletController
+        this.tokenJwt = tokenJwt,
+        this.auth = auth
 
-const router = require('express').Router()
+        this.router.get('/api/wallet', this.tokenJwt.verifyToken, this.walletController.myWallet.bind(this.walletController))
+        //register wallet
+        this.router.post('/api/wallet', this.tokenJwt.verifyToken, this.walletController.createWallet.bind(this.walletController))
+        //topup saldo
+        this.router.patch('/api/wallet', this.tokenJwt.verifyToken, this.walletController.topUpSaldo.bind(this.walletController))
+        //get transaction history
+        this.router.get('/api/history', this.tokenJwt.verifyToken, this.walletController.transactionHistory.bind(this.walletController))
+    }
 
+    getRouter() {
+        return this.router
+      }
+}
 //cek saldo
-router.get('/api/wallet', tokenjwt.verifyToken, walletcontroller.myWallet.bind(walletcontroller))
-//register wallet
-router.post('/api/wallet', tokenjwt.verifyToken, walletcontroller.createWallet.bind(walletcontroller))
-//topup saldo
-router.patch('/api/wallet', tokenjwt.verifyToken, walletcontroller.topUpSaldo.bind(walletcontroller))
-//get transaction history
-router.get('/api/history', tokenjwt.verifyToken, walletcontroller.transactionHistory.bind(walletcontroller))
 
-module.exports = router
+module.exports = wallerRouter

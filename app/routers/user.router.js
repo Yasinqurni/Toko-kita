@@ -1,27 +1,20 @@
-const { User } = require('../../db/models')
-const { userQueries} = require('../queries')
-const { userService } = require('../services')
-const { userController } = require('../controllers')
-const { tokenJwt } = require('../middlewares/authentication')
-const formatValidator = require('../middlewares/user.validation')
-const generateToken = require('../../lib/jwt')
-const isMatch = require('../../lib/bcrypt')
 
-const userqueries = new userQueries(User)
-const userservice = new userService(userqueries)
-const usercontroller = new userController(userservice, formatValidator, generateToken, isMatch)
-const tokenjwt = new tokenJwt()
+class UserRouter {
+    constructor(router, userController, tokenJwt) {
+      this.router = router
+      this.userController = userController
+      this.tokenJwt = tokenJwt
+  
+      this.router.post('/api/register/user', this.userController.registerUser.bind(this.userController))
+      this.router.post('/api/register/seller', this.userController.registerSeller.bind(this.userController))
+      this.router.post('/api/login', this.userController.loginUser.bind(this.userController))
+      this.router.get('/api/profile', this.tokenJwt.verifyToken, this.userController.profileUser.bind(this.userController))
+    }
+  
+    getRouter() {
+      return this.router
+    }
+  }
+  
+  module.exports = UserRouter
 
-
-const router = require('express').Router()
-//router user
-router.post('/api/register/user', usercontroller.registerUser.bind(usercontroller))
-// router seller
-router.post('/api/register/seller', usercontroller.registerSeller.bind(usercontroller))
-//router login
-router.post('/api/login', usercontroller.loginUser.bind(usercontroller))
-//router cek profile
-router.get('/api/profile', tokenjwt.verifyToken, usercontroller.profileUser.bind(usercontroller)) //
-
-
-module.exports = router

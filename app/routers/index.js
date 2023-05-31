@@ -1,17 +1,48 @@
-const itemRouter = require('./item.router')
-const userRouter = require('./user.router')
-const cartRouter = require('./carts.router')
-const orderRouter = require('./order.router')
-const imageRouter = require('./image.router')
-const walletRouter = require('./wallet.router')
-const transactionRouter = require('./transactions.router')
 
-module.exports = {
-    itemRouter,
-    userRouter,
-    cartRouter,
-    orderRouter,
-    imageRouter,
-    walletRouter,
-    transactionRouter
-}
+const {User, Item, Cart, Order, Item_cart, Image, Wallet, History, Transaction} = require('../../db/models')
+const {cartQueries, orderQueries, itemCartQueries, itemQueries, walletQueries, historyQueries, transactionQueries, userQueries, imageQueries} = require('../queries')
+const {cartService, orderService, itemCartService, itemService, walletService, historyService, transactionService, userService, imageService} = require('../services')
+const {userController, imageController, cartController, itemController, orderController, walletController, transactionController} = require('../controllers')
+
+const userRouter = require('./user.router')
+const itemRouter = require('./item.router')
+const orderRouter = require('./order.router')
+const cartRouter = require('./cart.router')
+const walletRouter = require('./wallet.router')
+const transactionRouter = require('./transaction.router')
+const imageRouter = require('./image.router')
+
+const formatValidator = require('../middlewares/user.validation')
+const generateToken = require('../../lib/jwt')
+const isMatch   = require('../../lib/bcrypt')
+const pagination = require('../services/pagination')
+const upload = require('../services/upload')
+
+const userqueries = new userQueries(User)
+const itemqueries = new itemQueries(Item, Image, User)
+const imagequeries =  new imageQueries(Image)
+const itemcartqueries = new itemCartQueries(Item_cart, Item)
+const cartqueries = new cartQueries(Cart, Item_cart, Item, User)
+const orderqueries = new orderQueries(Order)
+const transactionqueries = new transactionQueries(Transaction)
+const walletqueries = new walletQueries(Wallet)
+const historyqueries = new historyQueries(History)
+
+const userservice = new userService(userqueries)
+const itemservice = new itemService(itemqueries)
+const imageservice =  new imageService(imagequeries)
+const itemcartservice = new itemCartService(itemcartqueries)
+const cartservice = new cartService(cartqueries)
+const orderservice = new orderService(orderqueries)
+const transactionservice = new transactionService(transactionqueries)
+const walletservice = new walletService(walletqueries)
+const historyservice = new historyService(historyqueries)
+
+const usercontroller = new userController(userservice, formatValidator, generateToken, isMatch)
+const itemcontroller = new itemController(itemservice, pagination)
+const imagecontroller =  new imageController(imageservice, itemservice, upload)
+const cartcontroller = new cartController(itemservice, cartservice, itemcartservice)
+const ordercontroller = new orderController(cartservice, orderservice, itemcartservice, itemservice, walletservice, historyservice, transactionservice)
+const transactioncontroller = new transactionController(transactionservice)
+const walletcontroller = new walletController(walletservice, userservice, historyservice)
+

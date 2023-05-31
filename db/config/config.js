@@ -7,6 +7,12 @@ const sequelize = new Sequelize(db.database, db.username, db.password, {
     dialect: db.dialect,
     define: {
         underscored: true,
+    },
+    pool:{
+        max: 5,
+        min: 0,
+        acquire: 30000,
+        idlel: 10000,
     }
 })
 
